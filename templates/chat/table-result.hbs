@@ -1,0 +1,16 @@
+<div class="mds-chat-card {{#if isAlert}}mds-card-alert{{/if}}">
+  <header class="mds-card-header mds-crimson-bar">
+    <span>{{tableTitle}}</span>
+    <small>{{rollLabel}}</small>
+  </header>
+  <div class="mds-card-body">
+    <h4 class="mds-result-title">{{resultTitle}}</h4>
+    <p>{{resultText}}</p>
+    {{#if metaLine}}
+    <p class="mds-small"><em>{{metaLine}}</em></p>
+    {{/if}}
+    {{#if rollHtml}}
+    <div class="mds-embedded-roll">{{{rollHtml}}}</div>
+    {{/if}}
+  </div>
+</div>

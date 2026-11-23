@@ -1,0 +1,742 @@
+<div class="mds-sheet mds-character-sheet">
+  <header class="mds-top-banner">
+    <div class="mds-portrait-wrap">
+      <img class="mds-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img" />
+    </div>
+    <div class="mds-banner-center">
+      <div class="mds-banner-title">
+        <i class="fa-solid fa-compass mds-compass-icon"></i>
+        <h1>Mares de Sangue</h1>
+        <i class="fa-solid fa-skull-crossbones mds-skull-icon"></i>
+      </div>
+      <nav class="mds-tabs" role="tablist">
+        {{#each tabs}}
+        <button type="button" class="mds-tab-btn {{#if this.active}}active{{/if}}" data-action="switchTab" data-tab="{{this.id}}">
+          <i class="{{this.icon}}"></i> {{localize this.label}}
+        </button>
+        {{/each}}
+      </nav>
+    </div>
+    <div class="mds-banner-status">
+      {{#if isBroken}}
+      <span class="mds-badge mds-badge-danger"><i class="fa-solid fa-skull"></i> {{localize "MDS.Broken"}}</span>
+      {{/if}}
+      {{#if system.conditions.intoxicated}}
+      <span class="mds-badge mds-badge-amber"><i class="fa-solid fa-wine-bottle"></i> {{localize "MDS.Status.intoxicated"}}</span>
+      {{/if}}
+      <button type="button" class="mds-icon-text-btn" data-action="rollCallingTest" title="{{localize 'MDS.Calling.TestTitle'}}">
+        <i class="fa-solid fa-water"></i> {{localize "MDS.Calling.Label"}}: {{system.calling.value}}/10
+        {{#if (ne system.callingDie "none")}}({{stepDieUpper system.callingDie}}){{/if}}
+      </button>
+    </div>
+  </header>
+
+  <div class="mds-sheet-scroll">
+    {{#if (eq activeTab "main")}}
+    {{!-- Integrated Narrative Conditions Strip (3 Physical + 3 Mental) --}}
+    <section class="mds-card mds-conditions-strip">
+      <div class="mds-card-header mds-crimson-bar">
+        <span><i class="fa-solid fa-heart-crack"></i> {{localize "MDS.Conditions.Title"}}</span>
+        <div class="mds-header-meta">
+          <span>{{localize "MDS.Conditions.Physical"}}: <strong>{{system.physicalPenalty}}</strong></span>
+          <span>{{localize "MDS.Conditions.Mental"}}: <strong>{{system.mentalPenalty}}</strong></span>
+          <label class="mds-inline-check">
+            <input type="checkbox" name="system.conditions.intoxicated" {{checked system.conditions.intoxicated}} />
+            {{localize "MDS.Status.intoxicated"}}
+          </label>
+        </div>
+      </div>
+      <div class="mds-conditions-columns">
+        <div class="mds-cond-col">
+          <div class="mds-cond-subhead">
+            <span>{{localize "MDS.Conditions.PhysicalTrack"}} ({{system.physicalCount}}/3)</span>
+            <label class="mds-inline-check mds-broken-toggle">
+              <input type="checkbox" name="system.conditions.physicalBroken" {{checked system.conditions.physicalBroken}} />
+              {{localize "MDS.Broken"}}
+            </label>
+          </div>
+          {{#each physSlots as |slot idx|}}
+          <div class="mds-cond-row mds-sev-{{slot.severity}}">
+            <input type="text" name="system.conditions.physical.{{idx}}.text" value="{{slot.text}}" placeholder="{{localize 'MDS.Conditions.PhysicalPlaceholder'}}" />
+            <select name="system.conditions.physical.{{idx}}.severity">
+              {{#each ../config.conditionSeverities as |sev key|}}
+              <option value="{{key}}" {{#if (eq slot.severity key)}}selected{{/if}}>{{localize sev.label}}</option>
+              {{/each}}
+            </select>
+            <button type="button" class="mds-mini-btn" data-action="clearCondition" data-track="physical" data-index="{{idx}}" title="{{localize 'MDS.Clear'}}">
+              <i class="fa-solid fa-eraser"></i>
+            </button>
+          </div>
+          {{/each}}
+        </div>
+
+        <div class="mds-cond-col">
+          <div class="mds-cond-subhead">
+            <span>{{localize "MDS.Conditions.MentalTrack"}} ({{system.mentalCount}}/3)</span>
+            <label class="mds-inline-check mds-broken-toggle">
+              <input type="checkbox" name="system.conditions.mentalBroken" {{checked system.conditions.mentalBroken}} />
+              {{localize "MDS.Broken"}}
+            </label>
+          </div>
+          {{#each secondSlots as |slot idx|}}
+          <div class="mds-cond-row mds-sev-{{slot.severity}}">
+            <input type="text" name="system.conditions.mental.{{idx}}.text" value="{{slot.text}}" placeholder="{{localize 'MDS.Conditions.MentalPlaceholder'}}" />
+            <select name="system.conditions.mental.{{idx}}.severity">
+              {{#each ../config.conditionSeverities as |sev key|}}
+              <option value="{{key}}" {{#if (eq slot.severity key)}}selected{{/if}}>{{localize sev.label}}</option>
+              {{/each}}
+            </select>
+            <button type="button" class="mds-mini-btn" data-action="clearCondition" data-track="mental" data-index="{{idx}}" title="{{localize 'MDS.Clear'}}">
+              <i class="fa-solid fa-eraser"></i>
+            </button>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+
+    {{!-- Exact 3-Column Layout from ficha_mares_de_sangue.png --}}
+    <div class="mds-grid-3">
+      {{!-- COLUMN 1: IDENTIDADE, ATRIBUTOS, RELACIONAMENTOS, INVENTÁRIO GERAL --}}
+      <div class="mds-col">
+        {{!-- IDENTIDADE --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Identity.Title"}}</span>
+            <i class="fa-solid fa-anchor"></i>
+          </div>
+          <div class="mds-card-body mds-form-lines">
+            <label class="mds-line-field">
+              <span>{{localize "MDS.Identity.PirateName"}}</span>
+              <input type="text" name="name" value="{{actor.name}}" />
+            </label>
+            <label class="mds-line-field">
+              <span>{{localize "MDS.Identity.Origin"}}</span>
+              <input type="text" name="system.origin" value="{{system.origin}}" />
+            </label>
+            <div class="mds-line-field mds-archetype-row">
+              <span>{{localize "MDS.Identity.Archetype"}}</span>
+              <div class="mds-inline-flex">
+                <select name="system.archetype">
+                  <option value="">—</option>
+                  {{#each config.archetypes as |arch key|}}
+                  <option value="{{key}}" {{#if (eq ../system.archetype key)}}selected{{/if}}>{{localize arch.label}}</option>
+                  {{/each}}
+                </select>
+                <button type="button" class="mds-mini-btn" data-action="applyArchetype" title="{{localize 'MDS.Identity.ApplyArchetype'}}">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </div>
+            <div class="mds-line-field mds-key-pair">
+              <span>{{localize "MDS.Identity.KeyAttrSkill"}}</span>
+              <div class="mds-inline-flex">
+                <select name="system.keyAttribute">
+                  {{#each config.attributes as |lbl key|}}
+                  <option value="{{key}}" {{#if (eq ../system.keyAttribute key)}}selected{{/if}}>{{localize lbl}}</option>
+                  {{/each}}
+                </select>
+                <input type="text" name="system.keySkill" value="{{system.keySkill}}" placeholder="{{localize 'MDS.Identity.KeySkill'}}" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {{!-- ATRIBUTOS (2x2 Compass Medallions) --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Attributes.Title"}}</span>
+            <i class="fa-solid fa-compass"></i>
+          </div>
+          <div class="mds-card-body mds-attributes-grid">
+            {{#each config.attributes as |lbl key|}}
+            {{#with (lookup ../system.attributes key) as |attr|}}
+            <div class="mds-attr-medallion">
+              <button type="button" class="mds-attr-name" data-action="rollAttribute" data-attribute="{{key}}">
+                {{localize lbl}}
+              </button>
+              <div class="mds-compass-ring">
+                <span class="mds-compass-letter">{{stepLetter attr.die}}</span>
+                <select class="mds-compass-select" name="system.attributes.{{key}}.die">
+                  {{#each ../../config.attributeStepChoices as |sLbl sKey|}}
+                  <option value="{{sKey}}" {{#if (eq attr.die sKey)}}selected{{/if}}>{{stepDieUpper sKey}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+            {{/with}}
+            {{/each}}
+          </div>
+        </section>
+
+        {{!-- RELACIONAMENTOS --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Relationships.Title"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="addRelationship" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-anchor"></i>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            <div class="mds-table-head mds-rel-grid">
+              <span>{{localize "MDS.Name"}}</span>
+              <span>{{localize "MDS.Type"}}</span>
+              <span></span>
+            </div>
+            {{#each system.relationships as |rel idx|}}
+            <div class="mds-rel-row mds-rel-grid">
+              <input type="text" name="system.relationships.{{idx}}.name" value="{{rel.name}}" />
+              <input type="text" name="system.relationships.{{idx}}.type" value="{{rel.type}}" />
+              <button type="button" class="mds-mini-btn" data-action="removeRelationship" data-index="{{idx}}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+            {{/each}}
+          </div>
+        </section>
+
+        {{!-- INVENTÁRIO GERAL --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Inventory.Title"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="gear" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-box-open"></i>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            <div class="mds-encumbrance-note {{#if system.encumbrance.overloaded}}overloaded{{/if}}">
+              {{localize "MDS.Encumbrance.Limit"}}: <strong>{{system.encumbrance.value}} / {{system.encumbrance.max}}</strong> {{localize "MDS.Treasure.Handfuls"}}
+              • {{localize "MDS.Encumbrance.Hint"}}
+            </div>
+            <div class="mds-table-head mds-gear-grid">
+              <span>{{localize "MDS.Item"}}</span>
+              <span>{{localize "TYPES.Item.skill"}}</span>
+              <span>{{localize "MDS.Bonus"}}</span>
+              <span>{{localize "MDS.Weight.Short"}}</span>
+              <span></span>
+            </div>
+            {{#each gears as |item|}}
+            <div class="mds-item-row mds-gear-grid draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">{{item.name}}</a>
+              <span class="mds-muted">{{item.system.associatedSkill}}</span>
+              <span class="mds-center">{{#if item.system.bonus}}+{{item.system.bonus}}{{else}}—{{/if}}</span>
+              <span class="mds-center">{{item.system.weight}}</span>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{/each}}
+
+            {{!-- Treasure Bar --}}
+            <div class="mds-treasure-bar">
+              <label>
+                <span>{{localize "MDS.Treasure.Handfuls"}}</span>
+                <input type="number" name="system.treasure.handfuls" value="{{system.treasure.handfuls}}" min="0" />
+              </label>
+              <label>
+                <span>{{localize "MDS.Treasure.Sacks"}}</span>
+                <input type="number" name="system.treasure.sacks" value="{{system.treasure.sacks}}" min="0" />
+              </label>
+              <label>
+                <span>{{localize "MDS.Treasure.Chests"}}</span>
+                <input type="number" name="system.treasure.chests" value="{{system.treasure.chests}}" min="0" />
+              </label>
+              <label>
+                <span>{{localize "MDS.Treasure.Treasures"}}</span>
+                <input type="number" name="system.treasure.treasures" value="{{system.treasure.treasures}}" min="0" />
+              </label>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {{!-- COLUMN 2: PV/CHAMADO/XP, PERÍCIAS, PROTEÇÕES E ARMADURA, CONSUMÍVEIS --}}
+      <div class="mds-col">
+        {{!-- RECURSOS CENTRAIS (PV, CHAMADO, XP) --}}
+        <section class="mds-card mds-resources-card">
+          <div class="mds-card-body mds-form-lines">
+            <div class="mds-resource-row">
+              <span class="mds-res-label">{{localize "MDS.Willpower.Full"}}</span>
+              <div class="mds-res-inputs">
+                <input type="number" name="system.willpower.value" value="{{system.willpower.value}}" min="0" max="{{system.willpower.max}}" />
+                <span class="mds-slash">/</span>
+                <span class="mds-res-max" title="{{localize 'MDS.Willpower.MaxHint'}}">{{system.willpower.max}}</span>
+              </div>
+            </div>
+
+            <div class="mds-resource-row">
+              <span class="mds-res-label">
+                {{localize "MDS.Calling.Label"}}
+                {{#if (ne system.callingDie "none")}}
+                <small class="mds-calling-die">({{stepDieUpper system.callingDie}})</small>
+                {{/if}}
+              </span>
+              <div class="mds-res-inputs">
+                <input type="number" name="system.calling.value" value="{{system.calling.value}}" min="0" max="10" />
+                <span class="mds-slash">/ 10</span>
+                <button type="button" class="mds-mini-btn" data-action="rollCallingTest" title="{{localize 'MDS.Calling.TestTitle'}}">
+                  <i class="fa-solid fa-dice-d20"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="mds-resource-row">
+              <span class="mds-res-label">{{localize "MDS.Experience.Full"}}</span>
+              <div class="mds-res-inputs">
+                <input type="number" name="system.experience.value" value="{{system.experience.value}}" min="0" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {{!-- PERÍCIAS (Order matching sheet: Força, Astúcia, Agilidade, Empatia) --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Skills.Title"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="seedCoreSkills" title="{{localize 'MDS.Skills.SeedCore'}}">
+                <i class="fa-solid fa-list-check"></i>
+              </button>
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="skill" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-compass"></i>
+            </div>
+          </div>
+          <div class="mds-card-body mds-skills-body">
+            {{#each skillsByAttribute as |group attrKey|}}
+            <div class="mds-skill-group">
+              <div class="mds-skill-group-title">{{localize (lookup ../config.attributes attrKey)}}</div>
+              {{#each group as |sk|}}
+              <div class="mds-skill-row draggable" data-item-id="{{sk.id}}">
+                <a class="mds-roll-link" data-action="rollItem">{{sk.name}}</a>
+                <select class="mds-skill-die" data-item-field="system.die">
+                  {{#each ../../config.skillStepChoices as |sLbl sKey|}}
+                  <option value="{{sKey}}" {{#if (eq sk.system.die sKey)}}selected{{/if}}>{{stepLetter sKey}} {{#if (ne sKey "none")}}({{stepDieUpper sKey}}){{/if}}</option>
+                  {{/each}}
+                </select>
+                <input type="checkbox" class="mds-xp-check" data-item-field="system.xpMarked" {{checked sk.system.xpMarked}} title="{{localize 'MDS.Skills.XpMarked'}}" />
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+              </div>
+              {{/each}}
+            </div>
+            {{/each}}
+          </div>
+        </section>
+
+        {{!-- PROTEÇÕES E ARMADURA --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Armor.SectionTitle"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="armor" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            <div class="mds-table-head mds-armor-grid">
+              <span>{{localize "MDS.Name"}}</span>
+              <span>{{localize "MDS.Die"}}</span>
+              <span>{{localize "MDS.Weight.Short"}}</span>
+              <span></span>
+            </div>
+            {{#each armors as |item|}}
+            <div class="mds-item-row mds-armor-grid draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">{{item.name}}</a>
+              <span class="mds-center"><strong>{{stepDieUpper item.system.die}}</strong></span>
+              <span class="mds-center">{{item.system.weight}}</span>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="repairItem" title="{{localize 'MDS.Repair'}}"><i class="fa-solid fa-wrench"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </section>
+
+        {{!-- CONSUMÍVEIS (1-6 dots + Supply Roll + Rum) --}}
+        <section class="mds-card mds-consumables-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Consumables.Title"}}</span>
+            <i class="fa-solid fa-flask"></i>
+          </div>
+          <div class="mds-card-body">
+            <div class="mds-subcaption">{{localize "MDS.Consumables.Subtitle"}}</div>
+
+            <div class="mds-supply-row">
+              <span class="mds-supply-name">{{localize "MDS.Consumable.food"}}</span>
+              <div class="mds-dots">
+                {{#each (range 1 6) as |n|}}
+                <button type="button" class="mds-dot {{#if (gte ../system.consumables.food n)}}filled{{/if}}" data-action="setConsumable" data-consumable="food" data-value="{{n}}"></button>
+                {{/each}}
+              </div>
+              <button type="button" class="mds-mini-btn" data-action="rollSupply" data-consumable="food" title="{{localize 'MDS.SupplyRoll'}}">
+                <i class="fa-solid fa-dice-d6"></i>
+              </button>
+            </div>
+
+            <div class="mds-supply-row">
+              <span class="mds-supply-name">{{localize "MDS.Consumable.water"}}</span>
+              <div class="mds-dots">
+                {{#each (range 1 6) as |n|}}
+                <button type="button" class="mds-dot {{#if (gte ../system.consumables.water n)}}filled{{/if}}" data-action="setConsumable" data-consumable="water" data-value="{{n}}"></button>
+                {{/each}}
+              </div>
+              <button type="button" class="mds-mini-btn" data-action="rollSupply" data-consumable="water" title="{{localize 'MDS.SupplyRoll'}}">
+                <i class="fa-solid fa-dice-d6"></i>
+              </button>
+            </div>
+
+            <div class="mds-supply-row">
+              <span class="mds-supply-name">{{localize "MDS.Consumable.ammo"}}</span>
+              <div class="mds-dots">
+                {{#each (range 1 6) as |n|}}
+                <button type="button" class="mds-dot {{#if (gte ../system.consumables.ammo n)}}filled{{/if}}" data-action="setConsumable" data-consumable="ammo" data-value="{{n}}"></button>
+                {{/each}}
+              </div>
+              <button type="button" class="mds-mini-btn" data-action="rollSupply" data-consumable="ammo" title="{{localize 'MDS.SupplyRoll'}}">
+                <i class="fa-solid fa-dice-d6"></i>
+              </button>
+            </div>
+
+            <div class="mds-rum-row">
+              <span class="mds-supply-name"><i class="fa-solid fa-wine-bottle"></i> {{localize "MDS.Rum.Title"}}</span>
+              <input type="number" name="system.consumables.rum" value="{{system.consumables.rum}}" min="0" />
+              <button type="button" class="mds-btn-small" data-action="drinkRum">
+                {{localize "MDS.Rum.Drink"}}
+              </button>
+            </div>
+          </div>
+          <div class="mds-wax-seal" aria-hidden="true"><i class="fa-solid fa-dharmachakra"></i></div>
+        </section>
+      </div>
+
+      {{!-- COLUMN 3: TRAÇOS, ESPECIALIDADES, ARMAS, NOTAS E LESÕES CRÍTICAS --}}
+      <div class="mds-col">
+        {{!-- TRAÇOS --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Traits.Title"}}</span>
+            <i class="fa-solid fa-dharmachakra"></i>
+          </div>
+          <div class="mds-card-body mds-form-lines">
+            <div class="mds-trait-block">
+              <div class="mds-trait-head">
+                <span>{{localize "MDS.Traits.Pride"}}</span>
+                <label class="mds-inline-check">
+                  <input type="checkbox" name="system.traits.pride.used" {{checked system.traits.pride.used}} />
+                  {{localize "MDS.Traits.Used"}}
+                </label>
+              </div>
+              <textarea name="system.traits.pride.text" rows="2">{{system.traits.pride.text}}</textarea>
+            </div>
+            <label class="mds-trait-block">
+              <span>{{localize "MDS.Traits.DarkSecret"}}</span>
+              <textarea name="system.traits.darkSecret" rows="2">{{system.traits.darkSecret}}</textarea>
+            </label>
+            <label class="mds-trait-block">
+              <span>{{localize "MDS.Traits.BigDream"}}</span>
+              <textarea name="system.traits.bigDream" rows="2">{{system.traits.bigDream}}</textarea>
+            </label>
+          </div>
+        </section>
+
+        {{!-- ESPECIALIDADES --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Specialties.Title"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="specialty" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-compass"></i>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            {{#each specialties as |item|}}
+            <div class="mds-item-row mds-spec-row draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">
+                {{#if (eq item.system.category "exclusive")}}<span class="mds-bolt">⚡</span>{{/if}}
+                {{item.name}}
+                {{#if item.system.willpowerCost}}<small>({{item.system.willpowerCost}} PV)</small>{{/if}}
+              </a>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="chatItem"><i class="fa-solid fa-comment"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{else}}
+            <p class="mds-empty-hint">{{localize "MDS.EmptyList"}}</p>
+            {{/each}}
+          </div>
+        </section>
+
+        {{!-- ARMAS --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Weapons.Title"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="weapon" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-swords"></i>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            <div class="mds-table-head mds-weapon-grid">
+              <span>{{localize "MDS.Name"}}</span>
+              <span>{{localize "MDS.Bonus"}}</span>
+              <span>{{localize "MDS.Damage"}}</span>
+              <span>{{localize "MDS.Range.Label"}}</span>
+              <span></span>
+            </div>
+            {{#each weapons as |item|}}
+            <div class="mds-item-row mds-weapon-grid draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">
+                {{item.name}}
+                {{#if (and item.system.singleShot (not item.system.loaded))}}
+                <small class="mds-unloaded">[{{localize "MDS.Weapon.Unloaded"}}]</small>
+                {{/if}}
+              </a>
+              <span class="mds-center">+{{item.system.bonus}}</span>
+              <span class="mds-center">{{item.system.damage}}</span>
+              <span class="mds-center mds-small">{{localize (concat "MDS.Range." item.system.range)}}</span>
+              <div class="mds-row-actions">
+                {{#if (and item.system.singleShot (not item.system.loaded))}}
+                <button type="button" class="mds-mini-btn" data-action="reloadWeapon" title="{{localize 'MDS.Weapon.Reload'}}"><i class="fa-solid fa-rotate-right"></i></button>
+                {{/if}}
+                <button type="button" class="mds-mini-btn" data-action="repairItem" title="{{localize 'MDS.Repair'}}"><i class="fa-solid fa-wrench"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </section>
+
+        {{!-- NOTAS E LESÕES CRÍTICAS --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.CriticalsNotes.Title"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="rollCritTable" data-category="physical" title="{{localize 'MDS.Critical.RollPhysical'}}">
+                <i class="fa-solid fa-bone"></i>
+              </button>
+              <button type="button" class="mds-mini-btn light" data-action="rollCritTable" data-category="mental" title="{{localize 'MDS.Critical.RollMental'}}">
+                <i class="fa-solid fa-brain"></i>
+              </button>
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="critical" title="{{localize 'MDS.Add'}}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <i class="fa-solid fa-feather-pointed"></i>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            {{#each criticals as |item|}}
+            <div class="mds-item-row mds-crit-row {{#if item.system.lethal}}lethal{{/if}}" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="chatItem">
+                {{#if item.system.lethal}}<i class="fa-solid fa-skull"></i>{{/if}}
+                {{item.name}}
+              </a>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{else}}
+            <p class="mds-empty-hint">{{localize "MDS.Critical.None"}}</p>
+            {{/each}}
+          </div>
+        </section>
+      </div>
+    </div>
+    {{/if}}
+
+    {{!-- TAB 2: MAGIA & CHAMADO --}}
+    {{#if (eq activeTab "magic")}}
+    <div class="mds-magic-layout">
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span><i class="fa-solid fa-water"></i> {{localize "MDS.Calling.SectionTitle"}}</span>
+          <button type="button" class="mds-btn-small light" data-action="rollCallingTest">
+            <i class="fa-solid fa-dice-d20"></i> {{localize "MDS.Calling.TestTitle"}}
+          </button>
+        </div>
+        <div class="mds-card-body mds-calling-panel">
+          <div class="mds-calling-stats">
+            <div>{{localize "MDS.Calling.Label"}}: <strong>{{system.calling.value}} / 10</strong></div>
+            <div>{{localize "MDS.Calling.Die"}}: <strong>{{stepDieUpper system.callingDie}}</strong></div>
+            <div>{{localize "MDS.Calling.StateLabel"}}: <em>{{localize system.callingStateKey}}</em></div>
+          </div>
+          <label class="mds-trait-block">
+            <span>{{localize "MDS.Calling.Mutations"}}</span>
+            <textarea name="system.mutations" rows="2">{{system.mutations}}</textarea>
+          </label>
+        </div>
+      </section>
+
+      <div class="mds-grid-3">
+        {{!-- VODU --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Magic.Tradition.vodou"}}</span>
+            <div class="mds-header-actions">
+              <button type="button" class="mds-mini-btn light" data-action="rollVodouMishap" title="{{localize 'MDS.Magic.VodouMishap'}}">
+                <i class="fa-solid fa-bolt"></i>
+              </button>
+              <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="magic" data-tradition="vodou">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="mds-card-body">
+            {{#each vodouMagics as |item|}}
+            <div class="mds-item-row mds-spec-row draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">
+                {{item.name}} <small>(N{{item.system.level}} • {{item.system.willpowerCost}} PV)</small>
+              </a>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{else}}
+            <p class="mds-empty-hint">{{localize "MDS.EmptyList"}}</p>
+            {{/each}}
+            <label class="mds-trait-block">
+              <span>{{localize "MDS.Magic.LoaFavors"}}</span>
+              <textarea name="system.loaFavors" rows="2">{{system.loaFavors}}</textarea>
+            </label>
+          </div>
+        </section>
+
+        {{!-- FÉ CATÓLICA --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Magic.Tradition.faith"}}</span>
+            <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="magic" data-tradition="faith">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+          <div class="mds-card-body">
+            {{#each faithMagics as |item|}}
+            <div class="mds-item-row mds-spec-row draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">
+                {{item.name}} <small>(N{{item.system.level}} • {{item.system.willpowerCost}} PV)</small>
+              </a>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{else}}
+            <p class="mds-empty-hint">{{localize "MDS.EmptyList"}}</p>
+            {{/each}}
+
+            <div class="mds-commandments">
+              <div class="mds-skill-group-title">
+                {{localize "MDS.Faith.CommandmentsTitle"}}
+                {{#if system.violatedCommandmentsCount}}
+                <span class="mds-unloaded">(−{{system.violatedCommandmentsCount}})</span>
+                {{/if}}
+              </div>
+              {{#each config.commandments as |cmd|}}
+              <label class="mds-inline-check mds-cmd-row">
+                <input type="checkbox" name="system.commandmentsViolated.{{cmd.id}}" {{checked (lookup ../system.commandmentsViolated cmd.id)}} />
+                <span>{{localize cmd.label}}</span>
+              </label>
+              {{/each}}
+            </div>
+          </div>
+        </section>
+
+        {{!-- CORRUPÇÃO DAS PROFUNDEZAS --}}
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Magic.Tradition.corruption"}}</span>
+            <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="magic" data-tradition="corruption">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+          <div class="mds-card-body">
+            {{#each corruptionMagics as |item|}}
+            <div class="mds-item-row mds-spec-row draggable" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="rollItem">
+                {{item.name}} <small>(+{{item.system.callingCost}} {{localize "MDS.Calling.Label"}})</small>
+              </a>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{else}}
+            <p class="mds-empty-hint">{{localize "MDS.EmptyList"}}</p>
+            {{/each}}
+          </div>
+        </section>
+      </div>
+    </div>
+    {{/if}}
+
+    {{!-- TAB 3: BIOGRAFIA & EFEITOS --}}
+    {{#if (eq activeTab "effects")}}
+    <div class="mds-grid-2">
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span>{{localize "MDS.Biography"}}</span>
+        </div>
+        <div class="mds-card-body mds-editor-wrap">
+          <prose-mirror name="system.biography" value="{{system.biography}}" document-uuid="{{actor.uuid}}" {{#if editable}}editable{{/if}} compact>
+            {{{enrichedBiography}}}
+          </prose-mirror>
+        </div>
+      </section>
+
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span>{{localize "MDS.Notes"}}</span>
+        </div>
+        <div class="mds-card-body mds-editor-wrap">
+          <prose-mirror name="system.notes" value="{{system.notes}}" document-uuid="{{actor.uuid}}" {{#if editable}}editable{{/if}} compact>
+            {{{enrichedNotes}}}
+          </prose-mirror>
+        </div>
+      </section>
+    </div>
+
+    <section class="mds-card mds-mt">
+      <div class="mds-card-header mds-crimson-bar">
+        <span>{{localize "MDS.Effects.Title"}}</span>
+        <button type="button" class="mds-mini-btn light" data-action="createEffect">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+      <div class="mds-card-body">
+        {{#each effects as |eff|}}
+        <div class="mds-item-row mds-spec-row" data-effect-id="{{eff.id}}">
+          <span>{{eff.name}} {{#if eff.disabled}}<em>({{localize "MDS.Disabled"}})</em>{{/if}}</span>
+          <div class="mds-row-actions">
+            <button type="button" class="mds-mini-btn" data-action="toggleEffect"><i class="fa-solid fa-power-off"></i></button>
+            <button type="button" class="mds-mini-btn" data-action="editEffect"><i class="fa-solid fa-pen"></i></button>
+            <button type="button" class="mds-mini-btn" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+        {{else}}
+        <p class="mds-empty-hint">{{localize "MDS.EmptyList"}}</p>
+        {{/each}}
+      </div>
+    </section>
+    {{/if}}
+  </div>
+</div>

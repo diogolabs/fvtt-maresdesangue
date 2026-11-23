@@ -1,0 +1,605 @@
+{
+  "TYPES": {
+    "Actor": {
+      "character": "Pirate",
+      "npc": "NPC / Monster",
+      "ship": "Ship (The Ark)"
+    },
+    "Item": {
+      "skill": "Skill",
+      "specialty": "Specialty",
+      "weapon": "Weapon",
+      "armor": "Armor / Protection",
+      "gear": "Gear",
+      "magic": "Magic / Ritual",
+      "critical": "Critical Injury",
+      "shipModule": "Ship Module"
+    }
+  },
+  "MDS": {
+    "Sheet": {
+      "Actor": "Mares de Sangue Sheet",
+      "Item": "Mares de Sangue Item Sheet"
+    },
+    "Tabs": {
+      "Main": "Pirate",
+      "Magic": "Magic & Calling",
+      "BioEffects": "Biography & Effects"
+    },
+    "Settings": {
+      "autoSeedCoreSkills": {
+        "name": "Auto-seed 12 Official Skills",
+        "hint": "Automatically adds the 12 official Mares de Sangue skills when creating a new Pirate."
+      },
+      "enableEncumbrance": {
+        "name": "Enable Encumbrance (Handfuls)",
+        "hint": "Applies a −1 step penalty to Mobility rolls when exceeding the Handfuls carry limit."
+      },
+      "autoWillpowerOnFail": {
+        "name": "Gain +1 WP on failed Attribute roll",
+        "hint": "Official rule: automatically grants +1 Willpower Point (up to max) whenever an Attribute roll yields 0 successes."
+      },
+      "autoCallingOnPushBane": {
+        "name": "Gain +1 Calling on Bane after Pushing",
+        "hint": "Official rule: adds exactly +1 Calling (max 1 per roll) if any die rolls a 1 after pushing."
+      }
+    },
+    "Status": {
+      "brokenPhysical": "Broken (Physical)",
+      "brokenMental": "Broken (Mental)",
+      "intoxicated": "Intoxicated",
+      "prone": "Prone",
+      "grappled": "Grappled",
+      "burning": "Burning",
+      "possessed": "Possessed"
+    },
+    "Attribute": {
+      "Label": "Attribute",
+      "strength": "Strength",
+      "agility": "Agility",
+      "wits": "Wits",
+      "empathy": "Empathy"
+    },
+    "AttributeAbbr": {
+      "strength": "STR",
+      "agility": "AGI",
+      "wits": "WIT",
+      "empathy": "EMP"
+    },
+    "Attributes": {
+      "Title": "Attributes"
+    },
+    "StepDie": {
+      "none": "None",
+      "d6": "D (D6)",
+      "d8": "C (D8)",
+      "d10": "B (D10)",
+      "d12": "A (D12)"
+    },
+    "StepAttr": {
+      "d6": "D (D6) — Weak",
+      "d8": "C (D8) — Average",
+      "d10": "B (D10) — Capable",
+      "d12": "A (D12) — Extraordinary"
+    },
+    "StepSkill": {
+      "none": "— (Unskilled)",
+      "d6": "D (D6) — Novice",
+      "d8": "C (D8) — Experienced",
+      "d10": "B (D10) — Veteran",
+      "d12": "A (D12) — Elite"
+    },
+    "CoreSkill": {
+      "force": "Force",
+      "melee": "Melee",
+      "stamina": "Stamina",
+      "marksmanship": "Marksmanship",
+      "stealth": "Stealth",
+      "mobility": "Mobility",
+      "observation": "Observation",
+      "crafting": "Crafting",
+      "survival": "Survival",
+      "healing": "Healing",
+      "insight": "Insight",
+      "persuasion": "Persuasion"
+    },
+    "CoreSkillDesc": {
+      "force": "Lift, break down doors, smash chains, and hold the helm in a storm.",
+      "melee": "Close combat with cutlasses, boarding axes, knives, or bare hands, and blocking.",
+      "stamina": "Endure scurvy, thirst, poison, torture, tropical diseases, and exhaustion.",
+      "marksmanship": "Aim and fire flintlock pistols, muskets, and ranged projectiles.",
+      "stealth": "Move silently, hide in shadows, and pick pockets.",
+      "mobility": "Run, climb rigging, leap between ships, dodge, and maneuver the helm.",
+      "observation": "Spot danger, keep watch on the horizon, detect ambushes, and read the room.",
+      "crafting": "Repair hulls, operate bilge pumps, maintain cannons, and craft tools.",
+      "survival": "Navigate, read winds and currents, forage, track, and predict storms.",
+      "healing": "Treat wounds, amputate, remove Physical Conditions, and stabilize Critical Injuries.",
+      "insight": "Detect lies, sense motives, and resist the supernatural and the Calling.",
+      "persuasion": "Convince, intimidate, lead, bargain, and spark or quell mutinies."
+    },
+    "Archetype": {
+      "aristocrat": "The Aristocrat",
+      "freedman": "The Freedman",
+      "drowned": "The Drowned",
+      "rat": "The Rat",
+      "renegade": "The Renegade",
+      "manipulator": "The Manipulator",
+      "bloodthirsty": "The Bloodthirsty",
+      "healer": "The Healer",
+      "sorcerer": "The Sorcerer",
+      "exorcist": "The Exorcist"
+    },
+    "Identity": {
+      "Title": "Identity",
+      "PirateName": "Pirate Name",
+      "Origin": "Origin",
+      "Archetype": "Archetype",
+      "ApplyArchetype": "Apply Archetype Key Attribute & Key Skill",
+      "KeyAttrSkill": "Key Attribute / Key Skill",
+      "KeySkill": "Key Skill"
+    },
+    "Willpower": {
+      "Full": "Willpower Points (WP)",
+      "MaxHint": "Max equals the highest die size between Wits and Empathy",
+      "Cost": "Cost (WP)",
+      "GainedOnFail": "Attribute Roll Failed"
+    },
+    "Calling": {
+      "Label": "Calling",
+      "SectionTitle": "The Calling of the Depths",
+      "Die": "Calling Die",
+      "Cost": "Calling Cost",
+      "StateLabel": "State",
+      "Mutations": "Manifestations & Permanent Transformations",
+      "TestTitle": "Calling Test",
+      "State": {
+        "0": "Untouched",
+        "1": "The sea whispers",
+        "2": "The sea speaks",
+        "3": "The sea screams",
+        "4": "The sea has you"
+      },
+      "Test": {
+        "Resist": {
+          "title": "You Resist",
+          "body": "The wave passes. The character resists the Calling — for now."
+        },
+        "SceneControl": {
+          "title": "The Sea Has You for a Scene",
+          "body": "The GM takes control of the character for this scene, acting according to the will of the Depths."
+        },
+        "Lost": {
+          "title": "Lost to the Depths",
+          "body": "The character permanently transforms into a Drowned of the Depths and becomes a GM NPC."
+        }
+      }
+    },
+    "Experience": {
+      "Full": "Experience Points"
+    },
+    "Skills": {
+      "Title": "Skills",
+      "SeedCore": "Seed 12 Official Skills",
+      "XpMarked": "Used successfully (eligible for XP advancement)"
+    },
+    "Conditions": {
+      "Title": "Conditions",
+      "Physical": "Physical",
+      "Mental": "Mental",
+      "PhysicalTrack": "Physical Track (STR / AGI)",
+      "MentalTrack": "Mental Track (WIT / EMP)",
+      "PhysicalPlaceholder": "e.g., Slashed shoulder...",
+      "MentalPlaceholder": "e.g., Whispers in the fog..."
+    },
+    "Condition": {
+      "DefaultPushedText": "Extreme exertion",
+      "PushedRollText": "Pushed roll ({attr})",
+      "Severity": {
+        "none": "—",
+        "mild": "Mild (−1)",
+        "moderate": "Moderate (−2)",
+        "severe": "Severe (−3)"
+      }
+    },
+    "Traits": {
+      "Title": "Traits",
+      "Pride": "Pride",
+      "Used": "Used",
+      "DarkSecret": "Dark Secret",
+      "BigDream": "Big Dream"
+    },
+    "Relationships": {
+      "Title": "Relationships"
+    },
+    "Specialties": {
+      "Title": "Specialties"
+    },
+    "Specialty": {
+      "Category": {
+        "general": "General",
+        "exclusive": "Archetype Exclusive (⚡)",
+        "magic": "Magic (Vodou / Faith)"
+      }
+    },
+    "Weapons": {
+      "Title": "Weapons"
+    },
+    "Weapon": {
+      "GripLabel": "Grip",
+      "Grip": {
+        "1h": "1-Handed",
+        "2h": "2-Handed",
+        "unarmed": "Unarmed"
+      },
+      "SingleShot": "Single-Shot (Flintlock)",
+      "Loaded": "Loaded",
+      "Unloaded": "Unloaded",
+      "Reload": "Reload"
+    },
+    "Armor": {
+      "Label": "Armor",
+      "SectionTitle": "Armor & Protection",
+      "Roll": "Armor Roll",
+      "MaxDie": "Max Die",
+      "Part": {
+        "body": "Body",
+        "shield": "Shield",
+        "cover": "Cover"
+      }
+    },
+    "Cover": {
+      "none": "None",
+      "barrel": "Barrel / Furniture (D6)",
+      "cabinDoor": "Cabin Door (D8)",
+      "mast": "Ship Mast (D8)",
+      "shipWall": "Ship Wall (D10)",
+      "fortWall": "Fort Wall (D12)"
+    },
+    "Inventory": {
+      "Title": "General Inventory"
+    },
+    "Encumbrance": {
+      "Limit": "Limit",
+      "Hint": "Tiny items don't count • Heavy = 2+ Handfuls",
+      "Overloaded": "Overloaded",
+      "CarryBonus": "Carry Bonus (Handfuls)"
+    },
+    "Treasure": {
+      "Handfuls": "Handfuls",
+      "Sacks": "Sacks",
+      "Chests": "Chests",
+      "Treasures": "Treasures"
+    },
+    "Consumables": {
+      "Title": "Consumables",
+      "Subtitle": "Supply Rating (1–6)"
+    },
+    "Consumable": {
+      "food": "Food",
+      "water": "Water",
+      "ammo": "Ammo"
+    },
+    "SupplyRoll": "Supply Roll",
+    "Rum": {
+      "Title": "Rum",
+      "Drink": "Drink",
+      "Remaining": "Doses remaining",
+      "DrinkTitle": "Liquid Courage",
+      "DrinkResult": "Removed 1 Mental Condition, recovered +1 WP, and became Intoxicated until the end of the scene.",
+      "OverdoseTitle": "Too Much Rum",
+      "OverdoseCondition": "Severe intoxication",
+      "OverdoseResult": "Already Intoxicated: suffered 1 Mild Physical Condition instead of clearing a Mental Condition."
+    },
+    "CriticalsNotes": {
+      "Title": "Notes & Critical Injuries"
+    },
+    "Critical": {
+      "Category": {
+        "physical": "Physical",
+        "mental": "Mental"
+      },
+      "RollPhysical": "Roll Physical Critical Injury (D66)",
+      "RollMental": "Roll Mental Critical Injury (D66)",
+      "RollTable": "Roll Critical Injury (D66)",
+      "PhysicalTable": "Physical Critical Injury (D66)",
+      "MentalTable": "Mental Critical Injury (D66)",
+      "Lethal": "Lethal",
+      "Stabilized": "Stabilized",
+      "TimeLimit": "Time Limit",
+      "HealingTime": "Healing Time",
+      "None": "No critical injuries recorded."
+    },
+    "TimeLimit": {
+      "none": "—",
+      "round": "Round",
+      "stretch": "Stretch",
+      "quarterDay": "Quarter-Day"
+    },
+    "Magic": {
+      "Cast": "Cast / Invoke",
+      "TraditionLabel": "Tradition",
+      "TraditionDie": "Tradition Die (Level)",
+      "Tradition": {
+        "vodou": "Vodou",
+        "faith": "Catholic Faith",
+        "corruption": "Corruption of the Depths"
+      },
+      "LoaLabel": "Loa",
+      "Loa": {
+        "legba": "Legba — Crossroads",
+        "ogou": "Ogou — War",
+        "erzulie": "Erzulie — Love & Pain",
+        "baronSamedi": "Baron Samedi — The Dead",
+        "agwe": "Agwé — The Sea"
+      },
+      "CastingTimeLabel": "Time",
+      "CastingTime": {
+        "fast": "Fast Action",
+        "slow": "Slow Action",
+        "stretch": "Stretch",
+        "quarterDay": "Quarter-Day"
+      },
+      "Ingredients": "Ingredients / Offerings",
+      "LoaFavors": "Favors Owed to the Loa",
+      "RequiresCallingTest": "Requires immediate Calling Test",
+      "VodouMishap": "Vodou Mishap",
+      "Mishap": "Mishap"
+    },
+    "Faith": {
+      "CommandmentsTitle": "Violated Commandments",
+      "Violated": "Violated Commandments",
+      "Commandment": {
+        "noKillInnocents": "Thou shalt not kill the innocent",
+        "noStealPoor": "Thou shalt not steal from the poor",
+        "noAbandonAllies": "Thou shalt not abandon thy own",
+        "noPactDepths": "Thou shalt not pact with the Depths",
+        "careWeak": "Care for the sick and the weak"
+      }
+    },
+    "Range": {
+      "Label": "Range",
+      "engaged": "Engaged",
+      "short": "Short",
+      "medium": "Medium",
+      "long": "Long",
+      "extreme": "Extreme"
+    },
+    "Weight": {
+      "Label": "Weight (Handfuls)",
+      "Short": "Wt",
+      "tiny": "Tiny (0)",
+      "handful": "1 Handful",
+      "heavy": "Heavy (2)",
+      "veryHeavy": "Very Heavy (3)"
+    },
+    "Difficulty": {
+      "Label": "Difficulty",
+      "easy": "Easy",
+      "average": "Average",
+      "demanding": "Demanding",
+      "hard": "Hard",
+      "formidable": "Formidable"
+    },
+    "Npc": {
+      "Role": "Role / Description",
+      "Movement": "Movement",
+      "FearStress": "Sea Fear",
+      "MonstrousAttack": "Monstrous Attack",
+      "RollMonstrousAttack": "Monstrous Attack (D6)",
+      "MonstrousAttacksTable": "Monstrous Attacks Table (D6)",
+      "Category": {
+        "human": "Human",
+        "beast": "Natural Beast",
+        "horror": "Sea Horror",
+        "undead": "Undead",
+        "entity": "Entity of the Calling"
+      },
+      "Size": {
+        "small": "Small (1 Cond.)",
+        "medium": "Medium (2 Cond.)",
+        "large": "Large (3 Cond.)",
+        "huge": "Huge (4 Cond.)",
+        "colossal": "Colossal (5 Cond.)"
+      }
+    },
+    "Scale": {
+      "Label": "Scale",
+      "personal": "Personal",
+      "naval": "Naval",
+      "both": "Both"
+    },
+    "Ship": {
+      "Attributes": "Ship Attributes",
+      "Hull": "Hull",
+      "Sails": "Sails",
+      "Cannons": "Cannons",
+      "Cargo": "Cargo (Chests)",
+      "Broadside": "Broadside",
+      "Speed": "Speed",
+      "ApplyClass": "Apply Class",
+      "Tactics": "Naval Combat",
+      "PostureLabel": "Tactical Posture",
+      "AmmoLabel": "Ammunition",
+      "WindAdvantage": "Wind Advantage (Weather Gage)",
+      "InfamyLoyalty": "Infamy, Loyalty & Hold",
+      "Infamy": "Infamy",
+      "LoyaltyLabel": "Loyalty",
+      "MutinyTriggers": "Mutiny Triggers",
+      "Provisions": "Provisions",
+      "RolesTitle": "Ship Roles",
+      "PhysicalConditions": "Physical Conditions",
+      "CombatConditions": "Combat Conditions",
+      "Captured": "Captured",
+      "Modules": "Ship Modules",
+      "CargoSpace": "Cargo Space (Chests)",
+      "CostChests": "Cost (Chests)",
+      "Class": {
+        "sloop": "Sloop",
+        "brigantine": "Brigantine",
+        "corvette": "Corvette",
+        "fluyt": "Fluyt",
+        "lightGalleon": "Light Galleon",
+        "heavyGalleon": "Heavy Galleon"
+      },
+      "Posture": {
+        "cautious": "Cautious",
+        "aggressive": "Aggressive (+1)",
+        "desperate": "Desperate (+2)"
+      },
+      "Ammo": {
+        "iron": "Round Shot (Hull)",
+        "chain": "Chain Shot (Sails −1)",
+        "grapeshot": "Grapeshot (Crew)"
+      },
+      "Loyalty": {
+        "0": "Mutinous",
+        "1": "Rebellious",
+        "2": "Discontent",
+        "3": "Satisfied",
+        "4": "Loyal",
+        "5": "Fanatical"
+      },
+      "Role": {
+        "captain": "Captain",
+        "firstMate": "First Mate",
+        "helmsman": "Helmsman",
+        "masterGunner": "Master Gunner",
+        "carpenter": "Carpenter",
+        "surgeon": "Surgeon"
+      }
+    },
+    "RollDialog": {
+      "Title": "Roll — Step Dice",
+      "Preview": "Dice to Roll",
+      "Unskilled": "Unskilled",
+      "GearWeapon": "Weapon / Gear",
+      "Steps": "Steps",
+      "NoPush": "No Push",
+      "GMRoll": "GM Roll",
+      "ActorBrokenConfirm": "{name} is Broken. Roll anyway?"
+    },
+    "Chat": {
+      "Success": "Success",
+      "Successes": "Successes",
+      "Push": "Push Roll",
+      "Accept": "Accept",
+      "ApplyDamage": "Apply Damage",
+      "PushCost": "Cost of Pushing",
+      "PlusPhysicalCondition": "+1 Physical Condition",
+      "PlusMentalCondition": "+1 Mental Condition",
+      "BrokenPhysical": "BROKEN (Physical)!",
+      "BrokenMental": "BROKEN (Mental)!",
+      "AutoFailLabel": "Below D6",
+      "AutoFailTitle": "Automatic Failure",
+      "AutoFailBody": "Disadvantages reduced the die below D6 — the action automatically fails."
+    },
+    "Oracle": {
+      "Title": "Oracle of the Seas",
+      "YesAnd": { "title": "YES, AND...", "body": "Affirmative answer with an extra benefit or unexpected advantage." },
+      "Yes": { "title": "YES", "body": "Affirmative and favorable answer." },
+      "YesBut": { "title": "YES, BUT...", "body": "Affirmative answer, but with a complication or unforeseen cost." },
+      "NoBut": { "title": "NO, BUT...", "body": "Negative answer, yet offers a consolation or alternative lead." },
+      "No": { "title": "NO", "body": "Negative and unfavorable answer." },
+      "NoAnd": { "title": "NO, AND...", "body": "Negative answer and the situation dramatically worsens." }
+    },
+    "Tables": {
+      "VodouMishap": {
+        "r1": "The Loa demands an immediate extra favor before proceeding. Refusing causes the ritual to fail.",
+        "r2": "The ritual works, but affects an unintended extra target (an ally or nearby innocent).",
+        "r3": "The ritual draws the attention of an entity from the Depths.",
+        "r4": "The Loa manifests displeasure: you gain 1 Moderate Mental Condition.",
+        "r5": "The ritual's effect is inverted or distorted (GM's discretion).",
+        "r6": "The Loa withdraws temporarily; you cannot invoke this Loa for the rest of the session."
+      },
+      "PhysicalCrit": {
+        "11": { "name": "Concussion", "effects": "Observation −1 step until healed." },
+        "21": { "name": "Gouged Eye", "effects": "Marksmanship and Observation −1 step. Permanent." },
+        "22": { "name": "Sprained Ankle", "effects": "Mobility −1 step." },
+        "25": { "name": "Broken Rib", "effects": "Force and Stamina −1 step." },
+        "32": { "name": "Shattered Kneecap", "effects": "Movement becomes a slow action." },
+        "36": { "name": "Broken Arm", "effects": "Arm cannot be used." },
+        "42": { "name": "Broken Leg", "effects": "Movement becomes a slow action." },
+        "44": { "name": "Punctured Lung", "effects": "Lethal (Quarter-Day). Stamina and Mobility −2 steps." },
+        "46": { "name": "Bleeding Gut", "effects": "Lethal (Quarter-Day). +1 physical damage per Mobility or Melee roll." },
+        "52": { "name": "Severed Arm Artery", "effects": "Lethal (Stretch). Arm unusable." },
+        "53": { "name": "Severed Leg Artery", "effects": "Lethal (Stretch). Movement becomes a slow action." },
+        "55": { "name": "Severed Arm", "effects": "Lethal (Quarter-Day). Arm permanently lost if untreated." },
+        "56": { "name": "Severed Leg", "effects": "Lethal (Quarter-Day). Leg permanently lost if untreated." },
+        "62": { "name": "Fractured Spine", "effects": "Lethal (Quarter-Day). Paralysis below the neck." },
+        "63": { "name": "Slit Jugular", "effects": "Lethal (Round). Stamina −1 step." },
+        "64": { "name": "Ruptured Aorta", "effects": "Lethal (Round). Instant death without immediate Healing." },
+        "65": { "name": "Eviscerated", "effects": "Instant death." },
+        "66": { "name": "Crushed Skull", "effects": "Your story ends here." }
+      },
+      "MentalCrit": {
+        "11": { "name": "Tremors", "effects": "−1 step on all Agility rolls." },
+        "21": { "name": "White Hair", "effects": "No mechanical effect. Permanent." },
+        "22": { "name": "Anxious", "effects": "−1 step on all Wits rolls." },
+        "25": { "name": "Melancholic", "effects": "−1 step on all Empathy rolls." },
+        "32": { "name": "Nightmares", "effects": "Roll Insight each quarter-day of sleep; failure prevents recovery." },
+        "36": { "name": "Voice of the Depths", "effects": "−1 step on Observation while on dry land." },
+        "42": { "name": "Phobia", "effects": "Terror of what broke you; 1 mental damage per round near it." },
+        "44": { "name": "Alcoholic", "effects": "Requires rum daily; without it, 1 mental damage per day." },
+        "46": { "name": "Mark of the Calling", "effects": "Visible mark of the Depths on your body. Calling +1." },
+        "52": { "name": "Compulsive Liar", "effects": "Unable to stop lying." },
+        "53": { "name": "Paranoia", "effects": "Convinced someone in the crew wants you dead." },
+        "55": { "name": "Delusion", "effects": "Convinced of something completely false." },
+        "56": { "name": "Hallucinations", "effects": "Roll Insight per quarter-day; failure triggers vivid hallucination." },
+        "61": { "name": "Altered Personality", "effects": "Fundamental shift in character. Permanent." },
+        "63": { "name": "Amnesia", "effects": "Loses memories of the last D6 days." },
+        "64": { "name": "Catatonic", "effects": "Unresponsive to stimuli." },
+        "66": { "name": "Heart Attack", "effects": "Instant death from sheer terror." }
+      }
+    },
+    "Notifications": {
+      "MacroOwnedItemsOnly": "Only items owned by an Actor can be dragged to the hotbar.",
+      "NoDiceToRoll": "No dice available to roll.",
+      "NotEnoughWillpower": "Not enough Willpower Points (WP).",
+      "WeaponUnloaded": "{name} is unloaded. Reload before firing.",
+      "ArmorDegraded": "{name} rolled a Bane and degraded to {die}!",
+      "NoRumLeft": "No doses of Rum remaining.",
+      "SupplyDepleted": "{name} supply is depleted!",
+      "NoCalling": "Your Calling is 0 — the sea does not call you yet.",
+      "SelectTargetToken": "Select at least one target token on the canvas to apply damage.",
+      "AppliedDamage": "Damage ({dmg}) applied as a Physical Condition to selected tokens."
+    },
+    "Effects": {
+      "Title": "Active Effects"
+    },
+    "Name": "Name",
+    "Type": "Type",
+    "Item": "Item",
+    "Die": "Die",
+    "Bonus": "Bonus",
+    "MaxBonus": "Max Bonus",
+    "Damage": "Damage",
+    "Modifier": "Modifier",
+    "AimedShot": "Aimed Shot",
+    "Category": "Category",
+    "Rank": "Rank",
+    "Level": "Level",
+    "Quantity": "Qty",
+    "Features": "Features",
+    "Carried": "Carried",
+    "Effect": "Effect",
+    "Description": "Description",
+    "Biography": "Biography",
+    "Notes": "Notes",
+    "Broken": "Broken",
+    "Destroyed": "Destroyed",
+    "Permanent": "Permanent",
+    "QuarterDay": "Quarter-Day",
+    "Available": "Available",
+    "Disabled": "Disabled",
+    "New": "New",
+    "NewEffect": "New Effect",
+    "Add": "Add",
+    "Clear": "Clear",
+    "Repair": "Repair",
+    "Roll": "Roll",
+    "SendToChat": "Send to Chat",
+    "EmptyList": "No items recorded.",
+    "Yes": "Yes",
+    "No": "No"
+  }
+}

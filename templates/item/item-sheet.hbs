@@ -1,0 +1,290 @@
+<div class="mds-sheet mds-item-sheet">
+  <header class="mds-item-header mds-crimson-bar">
+    <img class="mds-item-img" src="{{item.img}}" alt="{{item.name}}" data-action="editImage" data-edit="img" />
+    <div class="mds-item-title-wrap">
+      <input type="text" name="name" value="{{item.name}}" class="mds-item-name" />
+      <span class="mds-item-type">{{localize (concat "TYPES.Item." item.type)}}</span>
+    </div>
+    <div class="mds-header-actions">
+      {{#if item.actor}}
+      <button type="button" class="mds-mini-btn light" data-action="rollItem" title="{{localize 'MDS.Roll'}}"><i class="fa-solid fa-dice-d20"></i></button>
+      {{/if}}
+      <button type="button" class="mds-mini-btn light" data-action="chatItem" title="{{localize 'MDS.SendToChat'}}"><i class="fa-solid fa-comment"></i></button>
+    </div>
+  </header>
+
+  <div class="mds-item-body mds-card">
+    <div class="mds-card-body mds-item-fields">
+      {{#if (eq item.type "skill")}}
+      <label class="mds-line-field">
+        <span>{{localize "MDS.Attribute.Label"}}</span>
+        <select name="system.attribute">
+          {{#each config.attributes as |lbl key|}}
+          <option value="{{key}}" {{#if (eq ../system.attribute key)}}selected{{/if}}>{{localize lbl}}</option>
+          {{/each}}
+        </select>
+      </label>
+      <label class="mds-line-field">
+        <span>{{localize "MDS.Die"}}</span>
+        <select name="system.die">
+          {{#each config.skillStepChoices as |lbl key|}}
+          <option value="{{key}}" {{#if (eq ../system.die key)}}selected{{/if}}>{{localize lbl}}</option>
+          {{/each}}
+        </select>
+      </label>
+      <label class="mds-inline-check">
+        <input type="checkbox" name="system.xpMarked" {{checked system.xpMarked}} />
+        {{localize "MDS.Skills.XpMarked"}}
+      </label>
+      {{/if}}
+
+      {{#if (eq item.type "specialty")}}
+      <label class="mds-line-field">
+        <span>{{localize "MDS.Category"}}</span>
+        <select name="system.category">
+          {{#each config.specialtyCategories as |lbl key|}}
+          <option value="{{key}}" {{#if (eq ../system.category key)}}selected{{/if}}>{{localize lbl}}</option>
+          {{/each}}
+        </select>
+      </label>
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Willpower.Cost"}}</span>
+          <input type="number" name="system.willpowerCost" value="{{system.willpowerCost}}" min="0" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Modifier"}}</span>
+          <input type="number" name="system.modifier" value="{{system.modifier}}" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Rank"}}</span>
+          <input type="number" name="system.rank" value="{{system.rank}}" min="1" max="3" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Encumbrance.CarryBonus"}}</span>
+          <input type="number" name="system.carryBonus" value="{{system.carryBonus}}" />
+        </label>
+      </div>
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Attribute.Label"}}</span>
+          <select name="system.attribute">
+            <option value="">—</option>
+            {{#each config.attributes as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.attribute key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "TYPES.Item.skill"}}</span>
+          <input type="text" name="system.associatedSkill" value="{{system.associatedSkill}}" />
+        </label>
+      </div>
+      {{/if}}
+
+      {{#if (eq item.type "weapon")}}
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "TYPES.Item.skill"}}</span>
+          <input type="text" name="system.skill" value="{{system.skill}}" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Weapon.GripLabel"}}</span>
+          <select name="system.grip">
+            {{#each config.weaponGrips as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.grip key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Bonus"}}</span>
+          <input type="number" name="system.bonus" value="{{system.bonus}}" min="0" max="3" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.MaxBonus"}}</span>
+          <input type="number" name="system.maxBonus" value="{{system.maxBonus}}" min="0" max="3" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Damage"}}</span>
+          <input type="number" name="system.damage" value="{{system.damage}}" min="0" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Range.Label"}}</span>
+          <select name="system.range">
+            {{#each config.ranges as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.range key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Weight.Label"}}</span>
+          <input type="number" name="system.weight" value="{{system.weight}}" min="0" step="0.5" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Features"}}</span>
+          <input type="text" name="system.features" value="{{system.features}}" />
+        </label>
+      </div>
+      <div class="mds-inline-flex">
+        <label class="mds-inline-check"><input type="checkbox" name="system.singleShot" {{checked system.singleShot}} /> {{localize "MDS.Weapon.SingleShot"}}</label>
+        <label class="mds-inline-check"><input type="checkbox" name="system.loaded" {{checked system.loaded}} /> {{localize "MDS.Weapon.Loaded"}}</label>
+        <label class="mds-inline-check"><input type="checkbox" name="system.carried" {{checked system.carried}} /> {{localize "MDS.Carried"}}</label>
+      </div>
+      {{/if}}
+
+      {{#if (eq item.type "armor")}}
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Die"}}</span>
+          <select name="system.die">
+            {{#each config.skillStepChoices as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.die key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Armor.MaxDie"}}</span>
+          <select name="system.maxDie">
+            {{#each config.skillStepChoices as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.maxDie key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Weight.Label"}}</span>
+          <input type="number" name="system.weight" value="{{system.weight}}" min="0" step="0.5" />
+        </label>
+      </div>
+      {{/if}}
+
+      {{#if (eq item.type "gear")}}
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "TYPES.Item.skill"}}</span>
+          <input type="text" name="system.associatedSkill" value="{{system.associatedSkill}}" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Bonus"}}</span>
+          <input type="number" name="system.bonus" value="{{system.bonus}}" min="0" max="3" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Quantity"}}</span>
+          <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Weight.Label"}}</span>
+          <input type="number" name="system.weight" value="{{system.weight}}" min="0" step="0.5" />
+        </label>
+      </div>
+      {{/if}}
+
+      {{#if (eq item.type "magic")}}
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Magic.TraditionLabel"}}</span>
+          <select name="system.tradition">
+            {{#each config.magicTraditions as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.tradition key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        {{#if (eq system.tradition "vodou")}}
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Magic.LoaLabel"}}</span>
+          <select name="system.loa">
+            {{#each config.vodouLoas as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.loa key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        {{/if}}
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Level"}}</span>
+          <input type="number" name="system.level" value="{{system.level}}" min="1" max="4" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Willpower.Cost"}}</span>
+          <input type="number" name="system.willpowerCost" value="{{system.willpowerCost}}" min="0" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Calling.Cost"}}</span>
+          <input type="number" name="system.callingCost" value="{{system.callingCost}}" min="0" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Magic.CastingTimeLabel"}}</span>
+          <select name="system.castingTime">
+            {{#each config.magicCastingTimes as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.castingTime key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+      </div>
+      <label class="mds-line-field">
+        <span>{{localize "MDS.Magic.Ingredients"}}</span>
+        <input type="text" name="system.ingredients" value="{{system.ingredients}}" />
+      </label>
+      <label class="mds-inline-check">
+        <input type="checkbox" name="system.requiresCallingTest" {{checked system.requiresCallingTest}} />
+        {{localize "MDS.Magic.RequiresCallingTest"}}
+      </label>
+      {{/if}}
+
+      {{#if (eq item.type "critical")}}
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Category"}}</span>
+          <select name="system.category">
+            {{#each config.criticalCategories as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.category key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>D66</span>
+          <input type="text" name="system.d66" value="{{system.d66}}" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Critical.TimeLimit"}}</span>
+          <select name="system.timeLimit">
+            {{#each config.timeLimits as |lbl key|}}
+            <option value="{{key}}" {{#if (eq ../system.timeLimit key)}}selected{{/if}}>{{localize lbl}}</option>
+            {{/each}}
+          </select>
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Critical.HealingTime"}}</span>
+          <input type="text" name="system.healingTime" value="{{system.healingTime}}" />
+        </label>
+      </div>
+      <div class="mds-inline-flex">
+        <label class="mds-inline-check"><input type="checkbox" name="system.lethal" {{checked system.lethal}} /> {{localize "MDS.Critical.Lethal"}}</label>
+        <label class="mds-inline-check"><input type="checkbox" name="system.stabilized" {{checked system.stabilized}} /> {{localize "MDS.Critical.Stabilized"}}</label>
+      </div>
+      {{/if}}
+
+      {{#if (eq item.type "shipModule")}}
+      <div class="mds-grid-2">
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Ship.CargoSpace"}}</span>
+          <input type="number" name="system.cargoSpace" value="{{system.cargoSpace}}" min="0" />
+        </label>
+        <label class="mds-line-field">
+          <span>{{localize "MDS.Ship.CostChests"}}</span>
+          <input type="number" name="system.costChests" value="{{system.costChests}}" min="0" />
+        </label>
+      </div>
+      <label class="mds-line-field">
+        <span>{{localize "MDS.Effect"}}</span>
+        <input type="text" name="system.effectSummary" value="{{system.effectSummary}}" />
+      </label>
+      {{/if}}
+
+      <div class="mds-editor-wrap mds-mt">
+        <div class="mds-skill-group-title">{{localize "MDS.Description"}}</div>
+        <prose-mirror name="system.description" value="{{system.description}}" document-uuid="{{item.uuid}}" {{#if editable}}editable{{/if}} compact>
+          {{{enrichedDescription}}}
+        </prose-mirror>
+      </div>
+    </div>
+  </div>
+</div>

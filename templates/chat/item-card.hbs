@@ -1,0 +1,29 @@
+<div class="mds-chat-card">
+  <header class="mds-card-header mds-crimson-bar">
+    <img src="{{item.img}}" alt="{{item.name}}" width="24" height="24" />
+    <span>{{item.name}}</span>
+  </header>
+  <div class="mds-card-body">
+    <div class="mds-card-tags">
+      <span class="mds-tag">{{localize (concat "TYPES.Item." item.type)}}</span>
+      {{#if (eq item.type "weapon")}}
+        <span class="mds-tag">+{{system.bonus}}</span>
+        <span class="mds-tag">{{localize "MDS.Damage"}}: {{system.damage}}</span>
+        <span class="mds-tag">{{localize (concat "MDS.Range." system.range)}}</span>
+      {{/if}}
+      {{#if (eq item.type "armor")}}
+        <span class="mds-tag">{{stepDieUpper system.die}}</span>
+      {{/if}}
+      {{#if (eq item.type "critical")}}
+        {{#if system.d66}}<span class="mds-tag">D66: {{system.d66}}</span>{{/if}}
+        {{#if system.lethal}}<span class="mds-tag alert">{{localize "MDS.Critical.Lethal"}}</span>{{/if}}
+      {{/if}}
+    </div>
+    {{#if system.effectsSummary}}
+    <p><strong>{{system.effectsSummary}}</strong></p>
+    {{/if}}
+    {{#if system.description}}
+    <div class="mds-card-desc">{{{system.description}}}</div>
+    {{/if}}
+  </div>
+</div>

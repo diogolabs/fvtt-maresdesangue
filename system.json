@@ -1,0 +1,92 @@
+{
+  "id": "fvtt-maresdesangue",
+  "title": "Mares de Sangue",
+  "description": "Sistema oficial para Foundry VTT (v13 e v14) do RPG Mares de Sangue — sobrevivência pirata, baixa fantasia e horror marítimo no Caribe usando exclusivamente Escala de Dados (Step Dice) da Year Zero Engine.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "diogolabs",
+      "url": "https://github.com/diogolabs"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {
+        "htmlFields": ["biography", "notes"]
+      },
+      "npc": {
+        "htmlFields": ["notes"]
+      },
+      "ship": {
+        "htmlFields": ["notes"]
+      }
+    },
+    "Item": {
+      "skill": {
+        "htmlFields": ["description"]
+      },
+      "specialty": {
+        "htmlFields": ["description"]
+      },
+      "weapon": {
+        "htmlFields": ["description"]
+      },
+      "armor": {
+        "htmlFields": ["description"]
+      },
+      "gear": {
+        "htmlFields": ["description"]
+      },
+      "magic": {
+        "htmlFields": ["description"]
+      },
+      "critical": {
+        "htmlFields": ["description"]
+      },
+      "shipModule": {
+        "htmlFields": ["description"]
+      }
+    }
+  },
+  "flags": {},
+  "url": "https://github.com/diogolabs/fvtt-maresdesangue",
+  "license": "https://github.com/diogolabs/fvtt-maresdesangue/blob/main/LICENSE.txt",
+  "readme": "https://github.com/diogolabs/fvtt-maresdesangue/blob/main/README.md",
+  "bugs": "https://github.com/diogolabs/fvtt-maresdesangue/issues",
+  "changelog": "https://github.com/diogolabs/fvtt-maresdesangue/blob/main/CHANGELOG.md",
+  "esmodules": [
+    "module/fvtt-maresdesangue.mjs"
+  ],
+  "styles": [
+    "css/fvtt-maresdesangue.css"
+  ],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [],
+  "packFolders": [],
+  "socket": false,
+  "manifest": "https://github.com/diogolabs/fvtt-maresdesangue/releases/latest/download/system.json",
+  "download": "https://github.com/diogolabs/fvtt-maresdesangue/releases/download/v1.0.0/system.zip",
+  "grid": {
+    "type": 1,
+    "distance": 1,
+    "units": "m",
+    "diagonals": 0
+  },
+  "primaryTokenAttribute": "willpower",
+  "secondaryTokenAttribute": "calling"
+}

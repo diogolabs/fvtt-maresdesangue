@@ -1,0 +1,98 @@
+<div class="mds-dialog-body">
+  <div class="mds-roll-preview {{#if autoFail}}alert{{/if}}">
+    <span class="mds-preview-label">{{localize "MDS.RollDialog.Preview"}}</span>
+    <strong class="mds-preview-dice">{{previewText}}</strong>
+  </div>
+
+  <div class="mds-form-lines">
+    <label class="mds-line-field">
+      <span>{{localize "MDS.Attribute.Label"}} ({{stepDieUpper attrDie}})</span>
+      <select name="attribute">
+        {{#each config.attributes as |lbl key|}}
+        <option value="{{key}}" {{#if (eq ../attribute key)}}selected{{/if}}>{{localize lbl}}</option>
+        {{/each}}
+      </select>
+    </label>
+
+    <label class="mds-line-field">
+      <span>{{localize "TYPES.Item.skill"}} {{#if skill}}({{stepDieUpper skillDie}}){{/if}}</span>
+      <select name="skillId">
+        <option value="">— {{localize "MDS.RollDialog.Unskilled"}} —</option>
+        {{#each skills as |sk|}}
+        <option value="{{sk.id}}" {{#if (eq ../skillId sk.id)}}selected{{/if}}>{{sk.name}} ({{stepDieUpper sk.system.die}})</option>
+        {{/each}}
+      </select>
+    </label>
+
+    <label class="mds-line-field">
+      <span>{{localize "MDS.RollDialog.GearWeapon"}}</span>
+      <select name="gearId">
+        <option value="">—</option>
+        {{#each gears as |g|}}
+        <option value="{{g.id}}" {{#if (eq ../gearId g.id)}}selected{{/if}}>{{g.name}} (+{{g.system.bonus}})</option>
+        {{/each}}
+      </select>
+    </label>
+
+    <label class="mds-line-field">
+      <span>{{localize "TYPES.Item.specialty"}}</span>
+      <select name="specialtyId">
+        <option value="">—</option>
+        {{#each specialties as |sp|}}
+        <option value="{{sp.id}}" {{#if (eq ../specialtyId sp.id)}}selected{{/if}}>{{sp.name}}</option>
+        {{/each}}
+      </select>
+    </label>
+
+    <label class="mds-line-field">
+      <span>{{localize "MDS.Difficulty.Label"}}</span>
+      <select name="difficultyMod">
+        {{#each config.difficulties as |diff|}}
+        <option value="{{diff.mod}}" {{#if (eq ../difficultyMod diff.mod)}}selected{{/if}}>{{localize diff.label}} ({{diff.mod}})</option>
+        {{/each}}
+      </select>
+    </label>
+
+    <div class="mds-line-field">
+      <span>{{localize "MDS.Modifier"}} ({{localize "MDS.RollDialog.Steps"}})</span>
+      <div class="mds-mod-stepper">
+        <button type="button" class="mds-mini-btn" data-action="adjustMod" data-delta="-1">−1</button>
+        <input type="number" name="customMod" value="{{customMod}}" />
+        <button type="button" class="mds-mini-btn" data-action="adjustMod" data-delta="1">+1</button>
+      </div>
+    </div>
+
+    {{#if (or (ne conditionMod 0) (ne encMod 0))}}
+    <div class="mds-mod-summary">
+      {{#if (ne conditionMod 0)}}<span>{{localize "MDS.Conditions.Title"}}: <strong>{{conditionMod}}</strong></span>{{/if}}
+      {{#if (ne encMod 0)}}<span>{{localize "MDS.Encumbrance.Overloaded"}}: <strong>{{encMod}}</strong></span>{{/if}}
+    </div>
+    {{/if}}
+
+    <div class="mds-checkbox-row">
+      <label class="mds-inline-check">
+        <input type="checkbox" name="aimedShot" {{checked aimedShot}} />
+        {{localize "MDS.AimedShot"}} (+1)
+      </label>
+      {{#if canUsePride}}
+      <label class="mds-inline-check">
+        <input type="checkbox" name="usePride" {{checked usePride}} />
+        {{localize "MDS.Traits.Pride"}} (+1 {{localize "MDS.Chat.Success"}})
+      </label>
+      {{/if}}
+      <label class="mds-inline-check">
+        <input type="checkbox" name="passiveRoll" {{checked passiveRoll}} />
+        {{localize "MDS.RollDialog.NoPush"}}
+      </label>
+    </div>
+  </div>
+
+  <footer class="mds-dialog-footer">
+    <button type="submit" class="mds-btn mds-btn-primary" data-roll-mode="public">
+      <i class="fa-solid fa-dice-d20"></i> {{localize "MDS.Roll"}}
+    </button>
+    <button type="submit" class="mds-btn" data-roll-mode="gm">
+      <i class="fa-solid fa-eye-slash"></i> {{localize "MDS.RollDialog.GMRoll"}}
+    </button>
+  </footer>
+</div>

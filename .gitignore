@@ -1,0 +1,15 @@
+# Local reference & design assets (not tracked in repository)
+documentos/
+imagens-de-exemplo/
+prints/
+repositorios de exemplo/
+
+# Build & release artifacts
+dist-release/
+*.zip
+
+# Dependencies & OS files
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

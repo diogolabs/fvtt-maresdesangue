@@ -1,0 +1,1075 @@
+/* ==========================================================================
+   Mares de Sangue — Foundry VTT System Stylesheet
+   Inspired by ficha_mares_de_sangue.png (Dark Timber + Aged Parchment + Blood Crimson)
+   ========================================================================== */
+
+:root {
+  --mds-wood-dark: #14191e;
+  --mds-wood-mid: #1f272e;
+  --mds-parchment-bg: #d9c8a7;
+  --mds-parchment-light: #e5d8bc;
+  --mds-parchment-edge: #b49d76;
+  --mds-ink: #1e1610;
+  --mds-ink-muted: #564635;
+  --mds-crimson: #6c1414;
+  --mds-crimson-dark: #470c0c;
+  --mds-crimson-bright: #982020;
+  --mds-brass: #9e7a3c;
+  --mds-abyss: #11343e;
+  --mds-border: #3a2b1c;
+}
+
+.mds.sheet .window-content {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(108, 20, 20, 0.22), transparent 55%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 2px,
+      transparent 2px,
+      transparent 16px
+    ),
+    linear-gradient(180deg, #10161c 0%, #1a2128 50%, #12171d 100%);
+  color: var(--mds-ink);
+  font-family: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+  padding: 0;
+  overflow: hidden;
+}
+
+.mds-sheet {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Top Nautical Banner */
+.mds-top-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background:
+    linear-gradient(180deg, rgba(14, 19, 24, 0.92), rgba(24, 30, 36, 0.95));
+  border-bottom: 2px solid var(--mds-brass);
+  color: #efe2c6;
+  flex-shrink: 0;
+}
+
+.mds-portrait-wrap {
+  flex: 0 0 62px;
+}
+
+.mds-portrait {
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--mds-brass);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.mds-banner-center {
+  flex: 1;
+  min-width: 0;
+}
+
+.mds-banner-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.mds-banner-title h1 {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #e8d5b0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(152, 32, 32, 0.45);
+  border: none;
+}
+
+.mds-compass-icon {
+  color: var(--mds-brass);
+  font-size: 1.25rem;
+}
+
+.mds-skull-icon {
+  color: var(--mds-crimson-bright);
+  font-size: 1.15rem;
+}
+
+.mds-title-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(158, 122, 60, 0.45);
+  color: #f3e6cc;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+}
+
+.mds-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mds-tab-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(158, 122, 60, 0.4);
+  color: #dfd0b2;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border-radius: 2px;
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.mds-tab-btn.active,
+.mds-tab-btn:hover {
+  background: var(--mds-crimson);
+  border-color: var(--mds-brass);
+  color: #fff5e1;
+}
+
+.mds-banner-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.mds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.12);
+  color: #f3e6cc;
+}
+
+.mds-badge-danger {
+  background: #8c1717;
+  color: #fff;
+}
+
+.mds-badge-amber {
+  background: #8f5c14;
+  color: #fff;
+}
+
+.mds-icon-text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--mds-abyss);
+  border: 1px solid var(--mds-brass);
+  color: #e6f4f1;
+  padding: 4px 9px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border-radius: 2px;
+  width: auto;
+}
+
+.mds-icon-text-btn:hover {
+  background: #194b59;
+}
+
+/* Scrollable Sheet Container */
+.mds-sheet-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px 16px;
+}
+
+/* 3-Column & 2-Column Grids */
+.mds-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.mds-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.mds-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mds-mt {
+  margin-top: 10px;
+}
+
+/* Parchment Cards */
+.mds-card {
+  position: relative;
+  background:
+    radial-gradient(ellipse at top left, rgba(255, 249, 235, 0.4), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(94, 71, 42, 0.25), transparent 60%),
+    linear-gradient(160deg, var(--mds-parchment-light) 0%, var(--mds-parchment-bg) 60%, var(--mds-parchment-edge) 100%);
+  border: 2px solid var(--mds-border);
+  box-shadow: inset 0 0 14px rgba(58, 43, 28, 0.32), 0 3px 8px rgba(0, 0, 0, 0.45);
+  border-radius: 3px;
+  color: var(--mds-ink);
+}
+
+.mds-crimson-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 5px 10px;
+  background: linear-gradient(90deg, var(--mds-crimson-dark), var(--mds-crimson) 60%, var(--mds-crimson-dark));
+  color: #f4e6c9;
+  font-size: 0.84rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 1px solid #2b0707;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.mds-card-body {
+  padding: 8px 10px;
+}
+
+.mds-header-actions,
+.mds-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+}
+
+/* Form Lines */
+.mds-form-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mds-line-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--mds-ink-muted);
+}
+
+.mds-line-field input,
+.mds-line-field select,
+.mds-trait-block textarea,
+.mds-cond-row input,
+.mds-cond-row select,
+.mds-rel-row input {
+  background: rgba(255, 250, 238, 0.52);
+  border: none;
+  border-bottom: 1px solid #755e43;
+  color: var(--mds-ink);
+  font-family: inherit;
+  font-size: 0.84rem;
+  padding: 3px 5px;
+  border-radius: 1px;
+}
+
+.mds-trait-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  color: var(--mds-ink-muted);
+}
+
+.mds-trait-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mds-inline-flex {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mds-inline-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.mds-inline-check.light {
+  color: #f4e6c9;
+}
+
+/* Conditions Strip */
+.mds-conditions-strip {
+  margin-bottom: 10px;
+}
+
+.mds-conditions-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 7px 10px;
+}
+
+.mds-cond-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--mds-crimson-dark);
+  margin-bottom: 4px;
+}
+
+.mds-cond-row {
+  display: grid;
+  grid-template-columns: 1fr 110px 24px;
+  gap: 4px;
+  margin-bottom: 4px;
+  align-items: center;
+}
+
+.mds-cond-row.mds-sev-mild input {
+  border-left: 3px solid #b57b1b;
+}
+
+.mds-cond-row.mds-sev-moderate input {
+  border-left: 3px solid #b84a18;
+}
+
+.mds-cond-row.mds-sev-severe input {
+  border-left: 3px solid #8f1111;
+  background: rgba(160, 24, 24, 0.12);
+}
+
+/* 2x2 Compass Medallion Attributes */
+.mds-attributes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  justify-items: center;
+}
+
+.mds-attr-medallion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.mds-attr-name {
+  background: none;
+  border: none;
+  color: var(--mds-ink);
+  font-weight: bold;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+}
+
+.mds-attr-name:hover {
+  color: var(--mds-crimson);
+  text-decoration: underline;
+}
+
+.mds-compass-ring {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  border: 3px double var(--mds-border);
+  background:
+    radial-gradient(circle, rgba(255, 250, 238, 0.7) 45%, rgba(158, 122, 60, 0.25) 100%);
+  box-shadow: inset 0 0 8px rgba(45, 31, 18, 0.4), 0 0 0 2px rgba(158, 122, 60, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.mds-compass-letter {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--mds-crimson-dark);
+  line-height: 1;
+}
+
+.mds-compass-select {
+  background: transparent;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: bold;
+  color: var(--mds-ink);
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+}
+
+.mds-attr-medallion.compact {
+  background: rgba(255, 250, 238, 0.45);
+  border: 1px solid #8a7354;
+  border-radius: 3px;
+  padding: 6px;
+}
+
+/* Central Resources Card */
+.mds-resource-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(90, 68, 42, 0.35);
+}
+
+.mds-resource-row:last-child {
+  border-bottom: none;
+}
+
+.mds-res-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--mds-ink);
+}
+
+.mds-res-inputs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mds-res-inputs input {
+  width: 48px;
+  text-align: center;
+  font-weight: bold;
+  background: rgba(255, 250, 238, 0.65);
+  border: 1px solid #755e43;
+  color: var(--mds-ink);
+  padding: 2px 4px;
+}
+
+.mds-calling-die {
+  color: var(--mds-abyss);
+  font-weight: bold;
+}
+
+/* Skills List */
+.mds-skill-group {
+  margin-bottom: 6px;
+}
+
+.mds-skill-group:last-child {
+  margin-bottom: 0;
+}
+
+.mds-skill-group-title {
+  font-size: 0.74rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mds-crimson-dark);
+  border-bottom: 1px solid rgba(108, 20, 20, 0.35);
+  margin-bottom: 3px;
+  padding-bottom: 1px;
+}
+
+.mds-skill-row {
+  display: grid;
+  grid-template-columns: 1fr 78px 18px 22px;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+  border-bottom: 1px dotted rgba(86, 70, 53, 0.3);
+  font-size: 0.83rem;
+}
+
+.mds-skill-die {
+  background: rgba(255, 250, 238, 0.55);
+  border: 1px solid #8a7354;
+  color: var(--mds-ink);
+  font-size: 0.74rem;
+  padding: 1px 3px;
+}
+
+/* Tables & Item Rows */
+.mds-table-head {
+  display: grid;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--mds-ink-muted);
+  border-bottom: 1px solid #755e43;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+}
+
+.mds-item-row {
+  display: grid;
+  gap: 4px;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px dotted rgba(86, 70, 53, 0.3);
+  font-size: 0.82rem;
+}
+
+.mds-rel-grid {
+  grid-template-columns: 1fr 1fr 22px;
+}
+
+.mds-rel-row {
+  display: grid;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.mds-gear-grid {
+  grid-template-columns: 1.4fr 0.9fr 38px 34px 44px;
+}
+
+.mds-armor-grid {
+  grid-template-columns: 1fr 48px 36px 64px;
+}
+
+.mds-weapon-grid {
+  grid-template-columns: 1.4fr 38px 36px 56px 68px;
+}
+
+.mds-spec-row {
+  grid-template-columns: 1fr auto;
+}
+
+.mds-crit-row {
+  grid-template-columns: 1fr auto;
+}
+
+.mds-crit-row.lethal .mds-roll-link {
+  color: #8f1111;
+  font-weight: bold;
+}
+
+.mds-monster-grid {
+  grid-template-columns: 28px 1.2fr 78px 66px 46px 1.6fr 28px;
+}
+
+.mds-roll-link {
+  color: var(--mds-ink);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.mds-roll-link:hover {
+  color: var(--mds-crimson);
+  text-decoration: underline;
+}
+
+.mds-row-actions {
+  display: flex;
+  gap: 2px;
+  justify-content: flex-end;
+}
+
+.mds-center {
+  text-align: center;
+}
+
+.mds-muted {
+  color: var(--mds-ink-muted);
+  font-size: 0.76rem;
+}
+
+.mds-small {
+  font-size: 0.74rem;
+}
+
+.mds-bolt {
+  color: #a66500;
+}
+
+.mds-unloaded {
+  color: #8f1111;
+  font-weight: bold;
+}
+
+.mds-empty-hint {
+  font-size: 0.76rem;
+  font-style: italic;
+  color: var(--mds-ink-muted);
+  margin: 4px 0;
+}
+
+/* Encumbrance & Treasure */
+.mds-encumbrance-note {
+  font-size: 0.72rem;
+  color: var(--mds-ink-muted);
+  margin-bottom: 6px;
+  padding: 3px 6px;
+  background: rgba(90, 68, 42, 0.12);
+  border-radius: 2px;
+}
+
+.mds-encumbrance-note.overloaded {
+  background: rgba(143, 17, 17, 0.18);
+  color: #7c0d0d;
+  font-weight: bold;
+}
+
+.mds-treasure-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+  gap: 5px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #755e43;
+}
+
+.mds-treasure-bar label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--mds-ink-muted);
+}
+
+.mds-treasure-bar input {
+  text-align: center;
+  font-weight: bold;
+  background: rgba(255, 250, 238, 0.65);
+  border: 1px solid #755e43;
+  color: var(--mds-ink);
+  padding: 2px;
+}
+
+/* Consumables 6-Dot Track & Wax Seal */
+.mds-consumables-card {
+  padding-bottom: 14px;
+}
+
+.mds-subcaption {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--mds-ink-muted);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.mds-supply-row {
+  display: grid;
+  grid-template-columns: 74px 1fr 24px;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.mds-supply-name {
+  font-size: 0.76rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.mds-dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.mds-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--mds-border);
+  background: rgba(255, 250, 238, 0.5);
+  padding: 0;
+  cursor: pointer;
+  flex: 0 0 16px;
+}
+
+.mds-dot.filled {
+  background: var(--mds-crimson);
+  border-color: var(--mds-crimson-dark);
+}
+
+.mds-rum-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed #755e43;
+}
+
+.mds-rum-row input {
+  width: 44px;
+  text-align: center;
+  background: rgba(255, 250, 238, 0.65);
+  border: 1px solid #755e43;
+  color: var(--mds-ink);
+}
+
+.mds-wax-seal {
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #a82020, #5c0c0c);
+  border: 2px solid #3c0606;
+  color: #f0d7a7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.55);
+}
+
+/* Magic & Calling Tab */
+.mds-magic-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mds-calling-stats {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.mds-commandments {
+  margin-top: 10px;
+  padding-top: 6px;
+  border-top: 1px solid #755e43;
+}
+
+.mds-cmd-row {
+  display: flex;
+  margin: 3px 0;
+}
+
+/* Buttons */
+.mds-mini-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: rgba(58, 43, 28, 0.14);
+  border: 1px solid rgba(58, 43, 28, 0.35);
+  color: var(--mds-ink);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.72rem;
+}
+
+.mds-mini-btn:hover {
+  background: var(--mds-crimson);
+  color: #fff;
+}
+
+.mds-mini-btn.light {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(244, 230, 201, 0.4);
+  color: #f4e6c9;
+}
+
+.mds-btn,
+.mds-btn-small {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #3a2b1c;
+  color: #f4e6c9;
+  border: 1px solid var(--mds-brass);
+  padding: 5px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+}
+
+.mds-btn-small {
+  padding: 2px 8px;
+  font-size: 0.74rem;
+}
+
+.mds-btn-small.light {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff5e1;
+}
+
+.mds-btn-primary {
+  background: var(--mds-crimson);
+  border-color: var(--mds-brass);
+}
+
+.mds-btn-primary:hover {
+  background: var(--mds-crimson-bright);
+}
+
+.mds-btn-danger {
+  background: #7c1111;
+  border-color: #d68b8b;
+  color: #fff;
+}
+
+/* Item Sheet & Dialogs */
+.mds-item-header {
+  padding: 8px 12px;
+}
+
+.mds-item-img {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--mds-brass);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.mds-item-title-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mds-item-name {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff5e1;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 2px 6px;
+}
+
+.mds-item-type {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+.mds-item-body {
+  flex: 1;
+  overflow-y: auto;
+  margin: 8px;
+}
+
+.mds-editor-wrap prose-mirror {
+  min-height: 150px;
+  background: rgba(255, 250, 238, 0.5);
+  border: 1px solid #8a7354;
+  padding: 4px;
+}
+
+.mds-dialog .window-content {
+  background: linear-gradient(160deg, var(--mds-parchment-light), var(--mds-parchment-bg));
+  color: var(--mds-ink);
+  font-family: Georgia, serif;
+}
+
+.mds-dialog-body {
+  padding: 10px 12px;
+}
+
+.mds-roll-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 10px;
+  background: var(--mds-crimson-dark);
+  color: #f4e6c9;
+  border: 1px solid var(--mds-brass);
+  border-radius: 2px;
+}
+
+.mds-roll-preview.alert {
+  background: #7c0d0d;
+}
+
+.mds-preview-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.mds-preview-dice {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.mds-mod-stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mds-mod-stepper input {
+  width: 60px;
+  text-align: center;
+}
+
+.mds-mod-summary {
+  display: flex;
+  gap: 12px;
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  background: rgba(108, 20, 20, 0.12);
+  border-radius: 2px;
+}
+
+.mds-checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.mds-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #755e43;
+}
+
+/* Chat Cards & Dice Rolls */
+.mds-chat-roll .dice-total.mds-success {
+  color: #1c5c2e;
+  border-color: #1c5c2e;
+}
+
+.mds-chat-roll .dice-total.mds-failure {
+  color: #8f1111;
+  border-color: #8f1111;
+}
+
+.mds-btn-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.mds-btn-row button {
+  flex: 1;
+}
+
+.mds-dice-infos {
+  margin-top: 6px;
+  font-size: 0.82rem;
+}
+
+.mds-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 6px;
+  background: rgba(58, 43, 28, 0.08);
+  border-radius: 2px;
+  margin-bottom: 3px;
+}
+
+.mds-info-row.mds-wp-gain {
+  background: rgba(28, 92, 46, 0.14);
+  color: #164b24;
+}
+
+.mds-info-row.mds-alert,
+.mds-info-row.mds-push-summary {
+  background: rgba(143, 17, 17, 0.14);
+  color: #6b0f0f;
+  font-weight: bold;
+}
+
+.mds-chat-card {
+  background: var(--mds-parchment-light);
+  border: 1px solid var(--mds-border);
+  border-radius: 3px;
+  color: var(--mds-ink);
+  overflow: hidden;
+}
+
+.mds-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.mds-tag {
+  background: rgba(58, 43, 28, 0.14);
+  border: 1px solid rgba(58, 43, 28, 0.25);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 0.72rem;
+}
+
+.mds-tag.alert {
+  background: #8f1111;
+  color: #fff;
+}
+
+.mds-result-title {
+  margin: 0 0 4px;
+  color: var(--mds-crimson-dark);
+}
+
+.mds-npc-meta {
+  gap: 6px;
+}
+
+.mds-npc-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.mds-npc-stats-row label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--mds-ink-muted);
+}

@@ -1,0 +1,231 @@
+<div class="mds-sheet mds-ship-sheet">
+  <header class="mds-top-banner">
+    <div class="mds-portrait-wrap">
+      <img class="mds-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img" />
+    </div>
+    <div class="mds-banner-center">
+      <input class="mds-title-input" type="text" name="name" value="{{actor.name}}" />
+      <div class="mds-inline-flex mds-npc-meta">
+        <select name="system.shipClass">
+          {{#each config.shipClasses as |cls key|}}
+          <option value="{{key}}" {{#if (eq ../system.shipClass key)}}selected{{/if}}>{{localize cls.label}}</option>
+          {{/each}}
+        </select>
+        <button type="button" class="mds-btn-small light" data-action="applyShipClass">
+          {{localize "MDS.Ship.ApplyClass"}}
+        </button>
+        <span class="mds-badge">{{localize "MDS.Ship.Speed"}}: {{system.hexSpeed}} hex / {{localize "MDS.QuarterDay"}}</span>
+      </div>
+    </div>
+    <div class="mds-banner-status">
+      <button type="button" class="mds-icon-text-btn" data-action="rollShipSails">
+        <i class="fa-solid fa-wind"></i> {{localize "MDS.Ship.Sails"}} ({{stepDieUpper system.sails}})
+      </button>
+      <button type="button" class="mds-icon-text-btn" data-action="rollShipCannons">
+        <i class="fa-solid fa-burst"></i> {{localize "MDS.Ship.Broadside"}} ({{stepDieUpper system.cannons}})
+      </button>
+    </div>
+  </header>
+
+  <div class="mds-sheet-scroll">
+    <div class="mds-grid-3">
+      {{!-- Column 1: Ship Attributes & Naval State --}}
+      <div class="mds-col">
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.Attributes"}}</span>
+            <i class="fa-solid fa-ship"></i>
+          </div>
+          <div class="mds-card-body mds-attributes-grid">
+            <div class="mds-attr-medallion compact">
+              <button type="button" class="mds-attr-name" data-action="rollShipHull">{{localize "MDS.Ship.Hull"}}</button>
+              <select class="mds-compass-select" name="system.hull">
+                {{#each config.attributeStepChoices as |sLbl sKey|}}
+                <option value="{{sKey}}" {{#if (eq ../system.hull sKey)}}selected{{/if}}>{{stepLetter sKey}} ({{stepDieUpper sKey}})</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="mds-attr-medallion compact">
+              <button type="button" class="mds-attr-name" data-action="rollShipSails">{{localize "MDS.Ship.Sails"}}</button>
+              <select class="mds-compass-select" name="system.sails">
+                {{#each config.attributeStepChoices as |sLbl sKey|}}
+                <option value="{{sKey}}" {{#if (eq ../system.sails sKey)}}selected{{/if}}>{{stepLetter sKey}} ({{stepDieUpper sKey}})</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="mds-attr-medallion compact">
+              <button type="button" class="mds-attr-name" data-action="rollShipCannons">{{localize "MDS.Ship.Cannons"}}</button>
+              <select class="mds-compass-select" name="system.cannons">
+                {{#each config.attributeStepChoices as |sLbl sKey|}}
+                <option value="{{sKey}}" {{#if (eq ../system.cannons sKey)}}selected{{/if}}>{{stepLetter sKey}} ({{stepDieUpper sKey}})</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="mds-attr-medallion compact">
+              <span class="mds-attr-name">{{localize "MDS.Ship.Cargo"}}</span>
+              <div class="mds-res-inputs">
+                <strong>{{system.cargoUsed}}</strong> /
+                <input type="number" name="system.cargoMax" value="{{system.cargoMax}}" min="0" style="width: 48px;" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.Tactics"}}</span>
+            <i class="fa-solid fa-compass"></i>
+          </div>
+          <div class="mds-card-body mds-form-lines">
+            <label class="mds-line-field">
+              <span>{{localize "MDS.Ship.PostureLabel"}}</span>
+              <select name="system.posture">
+                {{#each config.shipPostures as |lbl key|}}
+                <option value="{{key}}" {{#if (eq ../system.posture key)}}selected{{/if}}>{{localize lbl}}</option>
+                {{/each}}
+              </select>
+            </label>
+            <label class="mds-line-field">
+              <span>{{localize "MDS.Ship.AmmoLabel"}}</span>
+              <select name="system.ammoType">
+                {{#each config.shipAmmoTypes as |lbl key|}}
+                <option value="{{key}}" {{#if (eq ../system.ammoType key)}}selected{{/if}}>{{localize lbl}}</option>
+                {{/each}}
+              </select>
+            </label>
+            <label class="mds-inline-check">
+              <input type="checkbox" name="system.hasWindAdvantage" {{checked system.hasWindAdvantage}} />
+              {{localize "MDS.Ship.WindAdvantage"}}
+            </label>
+          </div>
+        </section>
+      </div>
+
+      {{!-- Column 2: Infamy, Loyalty, Crew Roles, Hold --}}
+      <div class="mds-col">
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.InfamyLoyalty"}}</span>
+            <button type="button" class="mds-mini-btn light" data-action="rollShipInfamy" title="{{localize 'MDS.Ship.Infamy'}}">
+              <i class="fa-solid fa-skull"></i>
+            </button>
+          </div>
+          <div class="mds-card-body mds-form-lines">
+            <div class="mds-resource-row">
+              <span class="mds-res-label">{{localize "MDS.Ship.Infamy"}} ({{stepDieUpper system.infamyDie}})</span>
+              <input type="number" name="system.infamy" value="{{system.infamy}}" min="0" style="width: 60px;" />
+            </div>
+            <div class="mds-resource-row">
+              <span class="mds-res-label">{{localize "MDS.Ship.LoyaltyLabel"}} ({{localize system.loyaltyLabelKey}})</span>
+              <input type="number" name="system.loyalty" value="{{system.loyalty}}" min="0" max="5" style="width: 60px;" />
+            </div>
+            <div class="mds-resource-row">
+              <span class="mds-res-label">{{localize "MDS.Ship.MutinyTriggers"}}</span>
+              <input type="number" name="system.mutinyTriggers" value="{{system.mutinyTriggers}}" min="0" style="width: 60px;" />
+            </div>
+            <div class="mds-resource-row">
+              <span class="mds-res-label">{{localize "MDS.Ship.Provisions"}} ({{localize "MDS.Treasure.Chests"}})</span>
+              <input type="number" name="system.provisions" value="{{system.provisions}}" min="0" style="width: 60px;" />
+            </div>
+            <div class="mds-treasure-bar">
+              <label>
+                <span>{{localize "MDS.Treasure.Chests"}}</span>
+                <input type="number" name="system.treasure.chests" value="{{system.treasure.chests}}" min="0" />
+              </label>
+              <label>
+                <span>{{localize "MDS.Treasure.Treasures"}}</span>
+                <input type="number" name="system.treasure.treasures" value="{{system.treasure.treasures}}" min="0" />
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.RolesTitle"}}</span>
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="mds-card-body mds-form-lines">
+            <label class="mds-line-field"><span>{{localize "MDS.Ship.Role.captain"}}</span><input type="text" name="system.roles.captain" value="{{system.roles.captain}}" /></label>
+            <label class="mds-line-field"><span>{{localize "MDS.Ship.Role.firstMate"}}</span><input type="text" name="system.roles.firstMate" value="{{system.roles.firstMate}}" /></label>
+            <label class="mds-line-field"><span>{{localize "MDS.Ship.Role.helmsman"}}</span><input type="text" name="system.roles.helmsman" value="{{system.roles.helmsman}}" /></label>
+            <label class="mds-line-field"><span>{{localize "MDS.Ship.Role.masterGunner"}}</span><input type="text" name="system.roles.masterGunner" value="{{system.roles.masterGunner}}" /></label>
+            <label class="mds-line-field"><span>{{localize "MDS.Ship.Role.carpenter"}}</span><input type="text" name="system.roles.carpenter" value="{{system.roles.carpenter}}" /></label>
+            <label class="mds-line-field"><span>{{localize "MDS.Ship.Role.surgeon"}}</span><input type="text" name="system.roles.surgeon" value="{{system.roles.surgeon}}" /></label>
+          </div>
+        </section>
+      </div>
+
+      {{!-- Column 3: Ship Conditions & Modules --}}
+      <div class="mds-col">
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.PhysicalConditions"}} ({{system.physicalCount}}/{{system.physicalMax}})</span>
+            <label class="mds-inline-check light">
+              <input type="checkbox" name="system.conditions.destroyed" {{checked system.conditions.destroyed}} />
+              {{localize "MDS.Destroyed"}}
+            </label>
+          </div>
+          <div class="mds-card-body">
+            {{#each physSlots as |slot idx|}}
+            <div class="mds-cond-row mds-sev-{{slot.severity}}">
+              <input type="text" name="system.conditions.physical.{{idx}}.text" value="{{slot.text}}" />
+              <select name="system.conditions.physical.{{idx}}.severity">
+                {{#each ../config.conditionSeverities as |sev key|}}
+                <option value="{{key}}" {{#if (eq slot.severity key)}}selected{{/if}}>{{localize sev.label}}</option>
+                {{/each}}
+              </select>
+              <button type="button" class="mds-mini-btn" data-action="clearCondition" data-track="physical" data-index="{{idx}}"><i class="fa-solid fa-eraser"></i></button>
+            </div>
+            {{/each}}
+          </div>
+        </section>
+
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.CombatConditions"}} ({{system.combatCount}}/{{system.combatMax}})</span>
+            <label class="mds-inline-check light">
+              <input type="checkbox" name="system.conditions.captured" {{checked system.conditions.captured}} />
+              {{localize "MDS.Ship.Captured"}}
+            </label>
+          </div>
+          <div class="mds-card-body">
+            {{#each secondSlots as |slot idx|}}
+            <div class="mds-cond-row mds-sev-{{slot.severity}}">
+              <input type="text" name="system.conditions.combat.{{idx}}.text" value="{{slot.text}}" />
+              <select name="system.conditions.combat.{{idx}}.severity">
+                {{#each ../config.conditionSeverities as |sev key|}}
+                <option value="{{key}}" {{#if (eq slot.severity key)}}selected{{/if}}>{{localize sev.label}}</option>
+                {{/each}}
+              </select>
+              <button type="button" class="mds-mini-btn" data-action="clearCondition" data-track="combat" data-index="{{idx}}"><i class="fa-solid fa-eraser"></i></button>
+            </div>
+            {{/each}}
+          </div>
+        </section>
+
+        <section class="mds-card">
+          <div class="mds-card-header mds-crimson-bar">
+            <span>{{localize "MDS.Ship.Modules"}}</span>
+            <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="shipModule">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+          <div class="mds-card-body">
+            {{#each shipModules as |item|}}
+            <div class="mds-item-row mds-spec-row" data-item-id="{{item.id}}">
+              <a class="mds-roll-link" data-action="chatItem">{{item.name}} <small>({{item.system.cargoSpace}} {{localize "MDS.Treasure.Chests"}})</small></a>
+              <div class="mds-row-actions">
+                <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            {{else}}
+            <p class="mds-empty-hint">{{localize "MDS.EmptyList"}}</p>
+            {{/each}}
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

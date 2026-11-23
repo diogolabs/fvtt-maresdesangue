@@ -1,0 +1,193 @@
+<div class="mds-sheet mds-npc-sheet">
+  <header class="mds-top-banner">
+    <div class="mds-portrait-wrap">
+      <img class="mds-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img" />
+    </div>
+    <div class="mds-banner-center">
+      <input class="mds-title-input" type="text" name="name" value="{{actor.name}}" />
+      <div class="mds-inline-flex mds-npc-meta">
+        <select name="system.category">
+          {{#each config.npcCategories as |lbl key|}}
+          <option value="{{key}}" {{#if (eq ../system.category key)}}selected{{/if}}>{{localize lbl}}</option>
+          {{/each}}
+        </select>
+        <select name="system.size">
+          {{#each config.monsterSizes as |sz key|}}
+          <option value="{{key}}" {{#if (eq ../system.size key)}}selected{{/if}}>{{localize sz.label}}</option>
+          {{/each}}
+        </select>
+        <input type="text" name="system.role" value="{{system.role}}" placeholder="{{localize 'MDS.Npc.Role'}}" />
+      </div>
+    </div>
+    <div class="mds-banner-status">
+      <button type="button" class="mds-icon-text-btn" data-action="rollNpcArmor">
+        <i class="fa-solid fa-shield-halved"></i> {{localize "MDS.Armor.Label"}}: {{stepDieUpper system.armorDie}}
+      </button>
+      <button type="button" class="mds-icon-text-btn" data-action="rollMonstrousAttack">
+        <i class="fa-solid fa-dice-d6"></i> {{localize "MDS.Npc.RollMonstrousAttack"}}
+      </button>
+    </div>
+  </header>
+
+  <div class="mds-sheet-scroll">
+    <div class="mds-grid-2">
+      {{!-- Attributes & Stats --}}
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span>{{localize "MDS.Attributes.Title"}}</span>
+          <i class="fa-solid fa-compass"></i>
+        </div>
+        <div class="mds-card-body">
+          <div class="mds-attributes-grid">
+            {{#each config.attributes as |lbl key|}}
+            {{#with (lookup ../system.attributes key) as |attr|}}
+            <div class="mds-attr-medallion compact">
+              <button type="button" class="mds-attr-name" data-action="rollAttribute" data-attribute="{{key}}">{{localize lbl}}</button>
+              <select class="mds-compass-select" name="system.attributes.{{key}}.die">
+                {{#each ../../config.attributeStepChoices as |sLbl sKey|}}
+                <option value="{{sKey}}" {{#if (eq attr.die sKey)}}selected{{/if}}>{{stepLetter sKey}} ({{stepDieUpper sKey}})</option>
+                {{/each}}
+              </select>
+            </div>
+            {{/with}}
+            {{/each}}
+          </div>
+          <div class="mds-npc-stats-row">
+            <label>
+              <span>{{localize "MDS.Armor.Label"}}</span>
+              <select name="system.armorDie">
+                {{#each config.skillStepChoices as |sLbl sKey|}}
+                <option value="{{sKey}}" {{#if (eq ../system.armorDie sKey)}}selected{{/if}}>{{stepDieUpper sKey}}</option>
+                {{/each}}
+              </select>
+            </label>
+            <label>
+              <span>{{localize "MDS.Npc.Movement"}}</span>
+              <input type="number" name="system.movement" value="{{system.movement}}" min="0" />
+            </label>
+            <label>
+              <span>{{localize "MDS.Npc.FearStress"}}</span>
+              <input type="number" name="system.fearStress" value="{{system.fearStress}}" min="0" />
+            </label>
+            <label>
+              <span>{{localize "MDS.Conditions.Physical"}} Max</span>
+              <input type="number" name="system.physicalMax" value="{{system.physicalMax}}" min="1" max="10" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      {{!-- Conditions --}}
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span>{{localize "MDS.Conditions.Title"}}</span>
+          <label class="mds-inline-check light">
+            <input type="checkbox" name="system.conditions.physicalBroken" {{checked system.conditions.physicalBroken}} />
+            {{localize "MDS.Broken"}}
+          </label>
+        </div>
+        <div class="mds-card-body">
+          {{#each physSlots as |slot idx|}}
+          <div class="mds-cond-row mds-sev-{{slot.severity}}">
+            <input type="text" name="system.conditions.physical.{{idx}}.text" value="{{slot.text}}" placeholder="{{localize 'MDS.Conditions.PhysicalPlaceholder'}}" />
+            <select name="system.conditions.physical.{{idx}}.severity">
+              {{#each ../config.conditionSeverities as |sev key|}}
+              <option value="{{key}}" {{#if (eq slot.severity key)}}selected{{/if}}>{{localize sev.label}}</option>
+              {{/each}}
+            </select>
+            <button type="button" class="mds-mini-btn" data-action="clearCondition" data-track="physical" data-index="{{idx}}">
+              <i class="fa-solid fa-eraser"></i>
+            </button>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+    </div>
+
+    {{!-- Monstrous Attacks Table (D6) --}}
+    <section class="mds-card mds-mt">
+      <div class="mds-card-header mds-crimson-bar">
+        <span><i class="fa-solid fa-dragon"></i> {{localize "MDS.Npc.MonstrousAttacksTable"}}</span>
+        <button type="button" class="mds-btn-small light" data-action="rollMonstrousAttack">
+          <i class="fa-solid fa-dice-d6"></i> D6
+        </button>
+      </div>
+      <div class="mds-card-body">
+        <div class="mds-table-head mds-monster-grid">
+          <span>D6</span>
+          <span>{{localize "MDS.Name"}}</span>
+          <span>{{localize "MDS.Scale.Label"}}</span>
+          <span>{{localize "MDS.Die"}}</span>
+          <span>{{localize "MDS.Damage"}}</span>
+          <span>{{localize "MDS.Effect"}}</span>
+          <span></span>
+        </div>
+        {{#each system.monstrousAttacks as |atk idx|}}
+        <div class="mds-item-row mds-monster-grid">
+          <span class="mds-center"><strong>{{add idx 1}}</strong></span>
+          <input type="text" name="system.monstrousAttacks.{{idx}}.name" value="{{atk.name}}" />
+          <select name="system.monstrousAttacks.{{idx}}.scale">
+            {{#each ../config.attackScales as |sLbl sKey|}}
+            <option value="{{sKey}}" {{#if (eq atk.scale sKey)}}selected{{/if}}>{{localize sLbl}}</option>
+            {{/each}}
+          </select>
+          <select name="system.monstrousAttacks.{{idx}}.die">
+            {{#each ../config.skillStepChoices as |dLbl dKey|}}
+            <option value="{{dKey}}" {{#if (eq atk.die dKey)}}selected{{/if}}>{{stepDieUpper dKey}}</option>
+            {{/each}}
+          </select>
+          <input type="number" name="system.monstrousAttacks.{{idx}}.damage" value="{{atk.damage}}" min="0" />
+          <input type="text" name="system.monstrousAttacks.{{idx}}.effect" value="{{atk.effect}}" />
+          <button type="button" class="mds-mini-btn" data-action="rollMonstrousAttack" data-index="{{idx}}">
+            <i class="fa-solid fa-dice-d20"></i>
+          </button>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    {{!-- Weapons & Notes --}}
+    <div class="mds-grid-2 mds-mt">
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span>{{localize "MDS.Weapons.Title"}} &amp; {{localize "MDS.Skills.Title"}}</span>
+          <div class="mds-header-actions">
+            <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="weapon" title="{{localize 'TYPES.Item.weapon'}}"><i class="fa-solid fa-swords"></i></button>
+            <button type="button" class="mds-mini-btn light" data-action="createItem" data-type="skill" title="{{localize 'TYPES.Item.skill'}}"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="mds-card-body">
+          {{#each weapons as |item|}}
+          <div class="mds-item-row mds-spec-row" data-item-id="{{item.id}}">
+            <a class="mds-roll-link" data-action="rollItem">{{item.name}} (+{{item.system.bonus}} / {{localize "MDS.Damage"}} {{item.system.damage}})</a>
+            <div class="mds-row-actions">
+              <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+              <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+          {{/each}}
+          {{#each skills as |item|}}
+          <div class="mds-item-row mds-spec-row" data-item-id="{{item.id}}">
+            <a class="mds-roll-link" data-action="rollItem">{{item.name}} ({{stepDieUpper item.system.die}})</a>
+            <div class="mds-row-actions">
+              <button type="button" class="mds-mini-btn" data-action="editItem"><i class="fa-solid fa-pen"></i></button>
+              <button type="button" class="mds-mini-btn" data-action="deleteItem"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+
+      <section class="mds-card">
+        <div class="mds-card-header mds-crimson-bar">
+          <span>{{localize "MDS.Notes"}}</span>
+        </div>
+        <div class="mds-card-body mds-editor-wrap">
+          <prose-mirror name="system.notes" value="{{system.notes}}" document-uuid="{{actor.uuid}}" {{#if editable}}editable{{/if}} compact>
+            {{{enrichedNotes}}}
+          </prose-mirror>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

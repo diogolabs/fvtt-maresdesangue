@@ -1,0 +1,31 @@
+<div class="mds-dice-infos">
+  {{#if (gt roll.attackDamage 0)}}
+  <div class="mds-info-row">
+    <span class="label">{{localize "MDS.Damage"}}:</span>
+    <span class="value"><strong>{{roll.attackDamage}}</strong></span>
+  </div>
+  {{/if}}
+
+  {{#if (gt roll.options.wpGainedOnFail 0)}}
+  <div class="mds-info-row mds-wp-gain">
+    <span class="label">{{localize "MDS.Willpower.GainedOnFail"}}:</span>
+    <span class="value"><strong>+{{roll.options.wpGainedOnFail}} PV</strong></span>
+  </div>
+  {{/if}}
+
+  {{#if (eq roll.options.rollType "supply")}}
+  <div class="mds-info-row {{#if (gt roll.options.supplyLost 0)}}mds-alert{{/if}}">
+    <span class="label">{{localize "MDS.SupplyRoll"}}:</span>
+    <span class="value">{{roll.options.supplyBefore}} − {{roll.options.supplyLost}} = <strong>{{roll.options.supplyAfter}}</strong></span>
+  </div>
+  {{/if}}
+
+  {{#if roll.pushed}}
+    {{#if roll.options.pushCostSummary}}
+    <div class="mds-info-row mds-push-summary">
+      <span class="label">{{localize "MDS.Chat.PushCost"}}:</span>
+      <span class="value">{{roll.options.pushCostSummary}}</span>
+    </div>
+    {{/if}}
+  {{/if}}
+</div>

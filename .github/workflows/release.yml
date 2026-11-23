@@ -1,0 +1,35 @@
+name: Release Foundry VTT System
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate i18n parity and references
+        run: node scripts/check-i18n.mjs
+
+      - name: Package system.json and system.zip
+        run: node scripts/package-release.mjs "${GITHUB_REF_NAME}" dist-release
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist-release/system.json
+            dist-release/system.zip
+          generate_release_notes: true

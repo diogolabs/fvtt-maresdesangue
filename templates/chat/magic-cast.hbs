@@ -1,0 +1,30 @@
+<div class="mds-chat-card">
+  <header class="mds-card-header mds-crimson-bar">
+    <span><i class="fa-solid fa-skull"></i> {{magic.name}}</span>
+    <small>{{traditionLabel}}</small>
+  </header>
+  <div class="mds-card-body">
+    <div class="mds-card-tags">
+      {{#if (gt wpCost 0)}}<span class="mds-tag">{{wpCost}} PV</span>{{/if}}
+      {{#if (gt callingAdded 0)}}<span class="mds-tag alert">+{{callingAdded}} {{localize "MDS.Calling.Label"}} ({{nextCalling}}/10)</span>{{/if}}
+      <span class="mds-tag">{{localize "MDS.Chat.Successes"}}: {{successes}}</span>
+    </div>
+    {{#if rollHtml}}
+    <div class="mds-embedded-roll">{{{rollHtml}}}</div>
+    {{/if}}
+    {{#if hasMishap}}
+    <div class="dice-buttons mds-btn-row">
+      <button type="button" class="mds-btn mds-btn-danger" data-action="rollVodouMishap">
+        <i class="fa-solid fa-bolt"></i> {{localize "MDS.Magic.VodouMishap"}} (D6)
+      </button>
+    </div>
+    {{/if}}
+    {{#if needsCallingTest}}
+    <div class="dice-buttons mds-btn-row">
+      <button type="button" class="mds-btn mds-btn-danger" data-action="rollCallingTest">
+        <i class="fa-solid fa-water"></i> {{localize "MDS.Calling.TestTitle"}}
+      </button>
+    </div>
+    {{/if}}
+  </div>
+</div>

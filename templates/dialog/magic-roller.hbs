@@ -1,0 +1,46 @@
+<div class="mds-dialog-body">
+  <div class="mds-roll-preview">
+    <span class="mds-preview-label">{{localize (lookup config.magicTraditions tradition)}}</span>
+    <strong class="mds-preview-dice">{{magic.name}}</strong>
+  </div>
+
+  <div class="mds-form-lines">
+    {{#if isCorruption}}
+    <div class="mds-mod-summary alert">
+      <span>{{localize "MDS.Calling.Label"}}: <strong>{{callingValue}} → {{add callingValue magic.system.callingCost}}</strong></span>
+      <span>{{localize "MDS.Willpower.Cost"}}: <strong>0 PV</strong></span>
+    </div>
+    {{else}}
+    <div class="mds-mod-summary">
+      <span>{{localize "MDS.Willpower.Cost"}}: <strong>{{magic.system.willpowerCost}} PV</strong> ({{localize "MDS.Available"}}: {{availableWp}})</span>
+      {{#if (and isFaith (gt violatedCommandments 0))}}
+      <span class="mds-unloaded">{{localize "MDS.Faith.Violated"}}: −{{violatedCommandments}}</span>
+      {{/if}}
+    </div>
+
+    <label class="mds-line-field">
+      <span>{{localize "MDS.Magic.TraditionDie"}}</span>
+      <select name="rankDie">
+        <option value="d6" {{#if (eq rankDie "d6")}}selected{{/if}}>N1 (D6)</option>
+        <option value="d8" {{#if (eq rankDie "d8")}}selected{{/if}}>N2 (D8)</option>
+        <option value="d10" {{#if (eq rankDie "d10")}}selected{{/if}}>N3 (D10)</option>
+      </select>
+    </label>
+
+    <label class="mds-line-field">
+      <span>{{localize "MDS.Modifier"}}</span>
+      <input type="number" name="modifier" value="{{modifier}}" />
+    </label>
+    {{/if}}
+
+    {{#if magic.system.ingredients}}
+    <p class="mds-small"><strong>{{localize "MDS.Magic.Ingredients"}}:</strong> {{magic.system.ingredients}}</p>
+    {{/if}}
+  </div>
+
+  <footer class="mds-dialog-footer">
+    <button type="submit" class="mds-btn mds-btn-primary">
+      <i class="fa-solid fa-skull"></i> {{localize "MDS.Magic.Cast"}}
+    </button>
+  </footer>
+</div>

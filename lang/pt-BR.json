@@ -1,0 +1,605 @@
+{
+  "TYPES": {
+    "Actor": {
+      "character": "Pirata",
+      "npc": "PNJ / Monstro",
+      "ship": "Navio (A Arca)"
+    },
+    "Item": {
+      "skill": "Perícia",
+      "specialty": "Especialidade",
+      "weapon": "Arma",
+      "armor": "Proteção / Armadura",
+      "gear": "Equipamento",
+      "magic": "Magia / Ritual",
+      "critical": "Lesão Crítica",
+      "shipModule": "Módulo de Navio"
+    }
+  },
+  "MDS": {
+    "Sheet": {
+      "Actor": "Ficha de Mares de Sangue",
+      "Item": "Ficha de Item — Mares de Sangue"
+    },
+    "Tabs": {
+      "Main": "Pirata",
+      "Magic": "Magia & Chamado",
+      "BioEffects": "Biografia & Efeitos"
+    },
+    "Settings": {
+      "autoSeedCoreSkills": {
+        "name": "Semear 12 Perícias Oficiais automaticamente",
+        "hint": "Adiciona automaticamente as 12 perícias oficiais de Mares de Sangue ao criar um novo Pirata."
+      },
+      "enableEncumbrance": {
+        "name": "Habilitar Carga (Punhados)",
+        "hint": "Aplica penalidade de −1 passo em Mover quando o pirata excede o limite de Punhados."
+      },
+      "autoWillpowerOnFail": {
+        "name": "Ganhar +1 PV ao falhar em teste de Atributo",
+        "hint": "Regra oficial: concede automaticamente +1 Ponto de Vontade (até o máximo) quando uma rolagem de Atributo resulta em 0 sucessos."
+      },
+      "autoCallingOnPushBane": {
+        "name": "Ganhar +1 Chamado ao rolar 1 após Forçar",
+        "hint": "Regra oficial: soma exatamente +1 ponto de Chamado (máx. 1 por rolagem) se sair qualquer 1 após forçar."
+      }
+    },
+    "Status": {
+      "brokenPhysical": "Quebrado (Físico)",
+      "brokenMental": "Quebrado (Mental)",
+      "intoxicated": "Alcoolizado",
+      "prone": "Caído",
+      "grappled": "Agarrado",
+      "burning": "Em Chamas",
+      "possessed": "Possuído"
+    },
+    "Attribute": {
+      "Label": "Atributo",
+      "strength": "Força",
+      "agility": "Agilidade",
+      "wits": "Astúcia",
+      "empathy": "Empatia"
+    },
+    "AttributeAbbr": {
+      "strength": "FOR",
+      "agility": "AGI",
+      "wits": "AST",
+      "empathy": "EMP"
+    },
+    "Attributes": {
+      "Title": "Atributos"
+    },
+    "StepDie": {
+      "none": "Nenhum",
+      "d6": "D (D6)",
+      "d8": "C (D8)",
+      "d10": "B (D10)",
+      "d12": "A (D12)"
+    },
+    "StepAttr": {
+      "d6": "D (D6) — Fraco",
+      "d8": "C (D8) — Médio",
+      "d10": "B (D10) — Capaz",
+      "d12": "A (D12) — Extraordinário"
+    },
+    "StepSkill": {
+      "none": "— (Sem nível)",
+      "d6": "D (D6) — Novato",
+      "d8": "C (D8) — Experiente",
+      "d10": "B (D10) — Veterano",
+      "d12": "A (D12) — Elite"
+    },
+    "CoreSkill": {
+      "force": "Forçar",
+      "melee": "Lutar",
+      "stamina": "Suportar",
+      "marksmanship": "Atirar",
+      "stealth": "Esgueirar",
+      "mobility": "Mover",
+      "observation": "Observar",
+      "crafting": "Construir",
+      "survival": "Sobreviver",
+      "healing": "Curar",
+      "insight": "Intuir",
+      "persuasion": "Persuadir"
+    },
+    "CoreSkillDesc": {
+      "force": "Erguer, arrombar, quebrar, puxar e manter o leme firme.",
+      "melee": "Combate corpo a corpo com sabres, machados, facas ou mãos nuas, e bloqueio.",
+      "stamina": "Resistir a escorbuto, sede, veneno, tortura, doenças tropicais e fadiga.",
+      "marksmanship": "Mirar e disparar pistolas, mosquetes e projéteis à distância.",
+      "stealth": "Mover-se em silêncio, esconder-se nas sombras e furtar.",
+      "mobility": "Correr, escalar cordames, saltar entre navios, esquivar e manobrar o leme.",
+      "observation": "Perceber perigos, vigiar o horizonte, detectar emboscadas e ler o ambiente.",
+      "crafting": "Reparar o casco, operar bombas, manter canhões e fabricar ferramentas.",
+      "survival": "Navegar, ler correntes e ventos, forragear, rastrear e prever tempestades.",
+      "healing": "Tratar ferimentos, amputar, remover Condições Físicas e estabilizar Lesões Críticas.",
+      "insight": "Detectar mentiras, sentir intenções e resistir ao sobrenatural e ao Chamado.",
+      "persuasion": "Convencer, intimidar, liderar, barganhar e conduzir motins."
+    },
+    "Archetype": {
+      "aristocrat": "O Aristocrata",
+      "freedman": "O Liberto",
+      "drowned": "O Afogado",
+      "rat": "O Rato",
+      "renegade": "O Renegado",
+      "manipulator": "O Manipulador",
+      "bloodthirsty": "O Sanguinário",
+      "healer": "O Curandeiro",
+      "sorcerer": "O Feiticeiro",
+      "exorcist": "O Exorcista"
+    },
+    "Identity": {
+      "Title": "Identidade",
+      "PirateName": "Nome do Pirata",
+      "Origin": "Origem",
+      "Archetype": "Arquétipo",
+      "ApplyArchetype": "Aplicar Atributo-Chave e Perícia-Chave do Arquétipo",
+      "KeyAttrSkill": "Atributo Chave / Perícia Chave",
+      "KeySkill": "Perícia Chave"
+    },
+    "Willpower": {
+      "Full": "Pontos de Vontade (PV)",
+      "MaxHint": "Máximo igual ao maior dado entre Astúcia e Empatia",
+      "Cost": "Custo (PV)",
+      "GainedOnFail": "Falha em Atributo"
+    },
+    "Calling": {
+      "Label": "Chamado",
+      "SectionTitle": "O Chamado das Profundezas",
+      "Die": "Dado de Chamado",
+      "Cost": "Custo de Chamado",
+      "StateLabel": "Estado",
+      "Mutations": "Manifestações & Transformações Permanentes",
+      "TestTitle": "Teste de Chamado",
+      "State": {
+        "0": "Intacto",
+        "1": "O mar sussurra",
+        "2": "O mar fala",
+        "3": "O mar grita",
+        "4": "O mar te tem"
+      },
+      "Test": {
+        "Resist": {
+          "title": "Você Resiste",
+          "body": "A onda passa. O personagem resiste ao Chamado — por enquanto."
+        },
+        "SceneControl": {
+          "title": "O Mar te Tem por uma Cena",
+          "body": "O MJ assume o controle do personagem por esta cena, agindo segundo os desejos das Profundezas."
+        },
+        "Lost": {
+          "title": "Perdido para as Profundezas",
+          "body": "O personagem transforma-se permanentemente em um Afogado das Profundezas e torna-se um PNJ do MJ."
+        }
+      }
+    },
+    "Experience": {
+      "Full": "Pontos de Experiência"
+    },
+    "Skills": {
+      "Title": "Perícias",
+      "SeedCore": "Semear 12 Perícias Oficiais",
+      "XpMarked": "Usada com sucesso (elegível para evolução com XP)"
+    },
+    "Conditions": {
+      "Title": "Condições",
+      "Physical": "Físico",
+      "Mental": "Mental",
+      "PhysicalTrack": "Trilho Físico (FOR / AGI)",
+      "MentalTrack": "Trilho Mental (AST / EMP)",
+      "PhysicalPlaceholder": "Ex: Corte no ombro...",
+      "MentalPlaceholder": "Ex: Sussurros da neblina..."
+    },
+    "Condition": {
+      "DefaultPushedText": "Esforço extremo",
+      "PushedRollText": "Forçou rolagem ({attr})",
+      "Severity": {
+        "none": "—",
+        "mild": "Leve (−1)",
+        "moderate": "Moderada (−2)",
+        "severe": "Grave (−3)"
+      }
+    },
+    "Traits": {
+      "Title": "Traços",
+      "Pride": "Orgulho",
+      "Used": "Usado",
+      "DarkSecret": "Segredo Sombrio",
+      "BigDream": "Grande Sonho"
+    },
+    "Relationships": {
+      "Title": "Relacionamentos"
+    },
+    "Specialties": {
+      "Title": "Especialidades"
+    },
+    "Specialty": {
+      "Category": {
+        "general": "Geral",
+        "exclusive": "Exclusiva de Arquétipo (⚡)",
+        "magic": "Mágica (Vodu / Fé)"
+      }
+    },
+    "Weapons": {
+      "Title": "Armas"
+    },
+    "Weapon": {
+      "GripLabel": "Empunhadura",
+      "Grip": {
+        "1h": "1 Mão",
+        "2h": "2 Mãos",
+        "unarmed": "Desarmado"
+      },
+      "SingleShot": "Tiro Único (Pederneira)",
+      "Loaded": "Carregada",
+      "Unloaded": "Descarregada",
+      "Reload": "Recarregar"
+    },
+    "Armor": {
+      "Label": "Armadura",
+      "SectionTitle": "Proteções e Armadura",
+      "Roll": "Rolagem de Armadura",
+      "MaxDie": "Dado Máximo",
+      "Part": {
+        "body": "Corpo",
+        "shield": "Escudo",
+        "cover": "Cobertura"
+      }
+    },
+    "Cover": {
+      "none": "Nenhuma",
+      "barrel": "Barril / Mobília (D6)",
+      "cabinDoor": "Porta de Cabine (D8)",
+      "mast": "Mastro do Navio (D8)",
+      "shipWall": "Parede do Navio (D10)",
+      "fortWall": "Muralha de Forte (D12)"
+    },
+    "Inventory": {
+      "Title": "Inventário Geral"
+    },
+    "Encumbrance": {
+      "Limit": "Limite",
+      "Hint": "Minúsculos não contam • Pesados = 2+ Punhados",
+      "Overloaded": "Sobrecarregado",
+      "CarryBonus": "Bônus de Carga (Punhados)"
+    },
+    "Treasure": {
+      "Handfuls": "Punhados",
+      "Sacks": "Sacos",
+      "Chests": "Baús",
+      "Treasures": "Tesouros"
+    },
+    "Consumables": {
+      "Title": "Consumíveis",
+      "Subtitle": "Classificação de Suprimento (1–6)"
+    },
+    "Consumable": {
+      "food": "Comida",
+      "water": "Água",
+      "ammo": "Munição"
+    },
+    "SupplyRoll": "Rolagem de Suprimento",
+    "Rum": {
+      "Title": "Rum",
+      "Drink": "Beber",
+      "Remaining": "Doses restantes",
+      "DrinkTitle": "Coragem Líquida",
+      "DrinkResult": "Removeu 1 Condição Mental, recuperou +1 PV e ficou Alcoolizado até o fim da cena.",
+      "OverdoseTitle": "Excesso de Rum",
+      "OverdoseCondition": "Ressaca / Embriaguez severa",
+      "OverdoseResult": "Já estava Alcoolizado: sofreu 1 Condição Física Leve em vez de remover uma Condição Mental."
+    },
+    "CriticalsNotes": {
+      "Title": "Notas e Lesões Críticas"
+    },
+    "Critical": {
+      "Category": {
+        "physical": "Física",
+        "mental": "Mental"
+      },
+      "RollPhysical": "Rolar Lesão Crítica Física (D66)",
+      "RollMental": "Rolar Lesão Crítica Mental (D66)",
+      "RollTable": "Rolar Lesão Crítica (D66)",
+      "PhysicalTable": "Lesão Crítica Física (D66)",
+      "MentalTable": "Lesão Crítica Mental (D66)",
+      "Lethal": "Mortal",
+      "Stabilized": "Estabilizada",
+      "TimeLimit": "Prazo",
+      "HealingTime": "Tempo de Cura",
+      "None": "Nenhuma lesão crítica registrada."
+    },
+    "TimeLimit": {
+      "none": "—",
+      "round": "Rodada",
+      "stretch": "Trecho",
+      "quarterDay": "Quarto de Dia"
+    },
+    "Magic": {
+      "Cast": "Conjurar / Invocar",
+      "TraditionLabel": "Tradição",
+      "TraditionDie": "Dado da Tradição (Nível)",
+      "Tradition": {
+        "vodou": "Vodu",
+        "faith": "Fé Católica",
+        "corruption": "Corrupção das Profundezas"
+      },
+      "LoaLabel": "Loa",
+      "Loa": {
+        "legba": "Legba — Encruzilhadas",
+        "ogou": "Ogou — Guerra",
+        "erzulie": "Erzulie — Amor e Dor",
+        "baronSamedi": "Baron Samedi — Mortos",
+        "agwe": "Agwé — Mar"
+      },
+      "CastingTimeLabel": "Tempo",
+      "CastingTime": {
+        "fast": "Ação Rápida",
+        "slow": "Ação Lenta",
+        "stretch": "Trecho",
+        "quarterDay": "Quarto de Dia"
+      },
+      "Ingredients": "Ingredientes / Oferendas",
+      "LoaFavors": "Favores Devidos aos Loa",
+      "RequiresCallingTest": "Exige Teste de Chamado imediato",
+      "VodouMishap": "Percalço do Vodu",
+      "Mishap": "Percalço"
+    },
+    "Faith": {
+      "CommandmentsTitle": "Mandamentos Violados",
+      "Violated": "Mandamentos Violados",
+      "Commandment": {
+        "noKillInnocents": "Não matarás inocentes",
+        "noStealPoor": "Não roubarás dos pobres",
+        "noAbandonAllies": "Não abandonarás os teus",
+        "noPactDepths": "Não pactuarás com as Profundezas",
+        "careWeak": "Cuidarás dos doentes e fracos"
+      }
+    },
+    "Range": {
+      "Label": "Alcance",
+      "engaged": "Engajado",
+      "short": "Curto",
+      "medium": "Médio",
+      "long": "Longo",
+      "extreme": "Extremo"
+    },
+    "Weight": {
+      "Label": "Peso (Punhados)",
+      "Short": "Peso",
+      "tiny": "Minúsculo (0)",
+      "handful": "1 Punhado",
+      "heavy": "Pesado (2)",
+      "veryHeavy": "Muito Pesado (3)"
+    },
+    "Difficulty": {
+      "Label": "Dificuldade",
+      "easy": "Fácil",
+      "average": "Normal",
+      "demanding": "Exigente",
+      "hard": "Difícil",
+      "formidable": "Formidável"
+    },
+    "Npc": {
+      "Role": "Papel / Descrição",
+      "Movement": "Movimento",
+      "FearStress": "Medo do Mar",
+      "MonstrousAttack": "Ataque Monstruoso",
+      "RollMonstrousAttack": "Ataque Monstruoso (D6)",
+      "MonstrousAttacksTable": "Tabela de Ataques Monstruosos (D6)",
+      "Category": {
+        "human": "Humano",
+        "beast": "Fera Natural",
+        "horror": "Horror do Mar",
+        "undead": "Morto-Vivo",
+        "entity": "Entidade do Chamado"
+      },
+      "Size": {
+        "small": "Pequeno (1 Cond.)",
+        "medium": "Médio (2 Cond.)",
+        "large": "Grande (3 Cond.)",
+        "huge": "Enorme (4 Cond.)",
+        "colossal": "Colossal (5 Cond.)"
+      }
+    },
+    "Scale": {
+      "Label": "Escala",
+      "personal": "Pessoal",
+      "naval": "Naval",
+      "both": "Ambas"
+    },
+    "Ship": {
+      "Attributes": "Atributos do Navio",
+      "Hull": "Casco",
+      "Sails": "Velas",
+      "Cannons": "Canhões",
+      "Cargo": "Carga (Baús)",
+      "Broadside": "Canhonada",
+      "Speed": "Velocidade",
+      "ApplyClass": "Aplicar Classe",
+      "Tactics": "Combate Naval",
+      "PostureLabel": "Postura Tática",
+      "AmmoLabel": "Munição",
+      "WindAdvantage": "Vantagem do Vento (Barlavento)",
+      "InfamyLoyalty": "Infâmia, Lealdade & Porão",
+      "Infamy": "Infâmia",
+      "LoyaltyLabel": "Lealdade",
+      "MutinyTriggers": "Gatilhos de Motim",
+      "Provisions": "Provisões",
+      "RolesTitle": "Papéis a Bordo",
+      "PhysicalConditions": "Condições Físicas",
+      "CombatConditions": "Condições de Combate",
+      "Captured": "Capturado",
+      "Modules": "Módulos do Navio",
+      "CargoSpace": "Espaço (Baús)",
+      "CostChests": "Custo (Baús)",
+      "Class": {
+        "sloop": "Chalupa",
+        "brigantine": "Bergantim",
+        "corvette": "Corveta",
+        "fluyt": "Fluyt",
+        "lightGalleon": "Galeão Leve",
+        "heavyGalleon": "Galeão Pesado"
+      },
+      "Posture": {
+        "cautious": "Cautelosa",
+        "aggressive": "Agressiva (+1)",
+        "desperate": "Desesperada (+2)"
+      },
+      "Ammo": {
+        "iron": "Bala de Ferro (Casco)",
+        "chain": "Bala de Corrente (Velas −1)",
+        "grapeshot": "Metralha (Tripulação)"
+      },
+      "Loyalty": {
+        "0": "Amotinada",
+        "1": "Revoltada",
+        "2": "Insatisfeita",
+        "3": "Satisfeita",
+        "4": "Leal",
+        "5": "Fanática"
+      },
+      "Role": {
+        "captain": "Capitão",
+        "firstMate": "Imediato",
+        "helmsman": "Timoneiro",
+        "masterGunner": "Mestre de Armas",
+        "carpenter": "Carpinteiro",
+        "surgeon": "Cirurgião"
+      }
+    },
+    "RollDialog": {
+      "Title": "Rolagem — Escala de Dados",
+      "Preview": "Dados a Rolar",
+      "Unskilled": "Sem Perícia",
+      "GearWeapon": "Arma / Equipamento",
+      "Steps": "Passos",
+      "NoPush": "Sem Forçar",
+      "GMRoll": "Rolar p/ MJ",
+      "ActorBrokenConfirm": "{name} está Quebrado. Deseja rolar mesmo assim?"
+    },
+    "Chat": {
+      "Success": "Sucesso",
+      "Successes": "Sucessos",
+      "Push": "Forçar Rolagem",
+      "Accept": "Aceitar",
+      "ApplyDamage": "Aplicar Dano",
+      "PushCost": "Custo de Forçar",
+      "PlusPhysicalCondition": "+1 Condição Física",
+      "PlusMentalCondition": "+1 Condição Mental",
+      "BrokenPhysical": "QUEBRADO (Físico)!",
+      "BrokenMental": "QUEBRADO (Mental)!",
+      "AutoFailLabel": "Abaixo de D6",
+      "AutoFailTitle": "Falha Automática",
+      "AutoFailBody": "As desvantagens reduziram o dado abaixo de D6 — a ação falha automaticamente."
+    },
+    "Oracle": {
+      "Title": "Oráculo dos Mares",
+      "YesAnd": { "title": "SIM, E...", "body": "Resposta afirmativa com benefício extra ou vantagem inesperada." },
+      "Yes": { "title": "SIM", "body": "Resposta afirmativa e favorável." },
+      "YesBut": { "title": "SIM, MAS...", "body": "Resposta afirmativa, mas com complicação ou custo imprevisto." },
+      "NoBut": { "title": "NÃO, MAS...", "body": "Resposta negativa, porém oferece um consolo ou pista alternativa." },
+      "No": { "title": "NÃO", "body": "Resposta negativa e desfavorável." },
+      "NoAnd": { "title": "NÃO, E...", "body": "Resposta negativa e a situação piora dramaticamente." }
+    },
+    "Tables": {
+      "VodouMishap": {
+        "r1": "O Loa exige um favor adicional imediato antes de continuar. Se recusar, o ritual falha.",
+        "r2": "O ritual funciona, mas afeta um alvo adicional não intencional (aliado ou inocente próximo).",
+        "r3": "O ritual atrai a atenção de uma entidade das Profundezas.",
+        "r4": "O Loa manifesta insatisfação: você recebe 1 Condição Mental Moderada.",
+        "r5": "O efeito do ritual é invertido ou distorcido (decisão do MJ).",
+        "r6": "O Loa se retira temporariamente; você não pode invocá-lo pelo resto da sessão."
+      },
+      "PhysicalCrit": {
+        "11": { "name": "Concussão", "effects": "Observar −1 passo até curar." },
+        "21": { "name": "Olho arrancado", "effects": "Atirar e Observar −1 passo. Permanente." },
+        "22": { "name": "Tornozelo torcido", "effects": "Mover −1 passo." },
+        "25": { "name": "Costela quebrada", "effects": "Forçar e Suportar −1 passo." },
+        "32": { "name": "Rótula estourada", "effects": "Movimento se torna ação lenta." },
+        "36": { "name": "Braço quebrado", "effects": "Braço não pode ser usado." },
+        "42": { "name": "Perna quebrada", "effects": "Movimento se torna ação lenta." },
+        "44": { "name": "Pulmão perfurado", "effects": "Mortal (Quarto de Dia). Suportar e Mover −2 passos." },
+        "46": { "name": "Intestino sangrando", "effects": "Mortal (Quarto de Dia). +1 dano físico a cada rolagem de Mover ou Lutar." },
+        "52": { "name": "Artéria do braço", "effects": "Mortal (Trecho). Braço inutilizável." },
+        "53": { "name": "Artéria da perna", "effects": "Mortal (Trecho). Movimento se torna ação lenta." },
+        "55": { "name": "Braço amputado", "effects": "Mortal (Quarto de Dia). Braço perdido permanentemente se não tratado." },
+        "56": { "name": "Perna amputada", "effects": "Mortal (Quarto de Dia). Perna perdida permanentemente se não tratada." },
+        "62": { "name": "Coluna fraturada", "effects": "Mortal (Quarto de Dia). Paralisia abaixo do pescoço." },
+        "63": { "name": "Jugular rompida", "effects": "Mortal (Rodada). Suportar −1 passo." },
+        "64": { "name": "Aorta rompida", "effects": "Mortal (Rodada). Morte instantânea sem Curar imediato." },
+        "65": { "name": "Eviscerado", "effects": "Morte imediata." },
+        "66": { "name": "Crânio esmagado", "effects": "Sua história termina aqui." }
+      },
+      "MentalCrit": {
+        "11": { "name": "Tremores", "effects": "−1 passo em todas as rolagens de Agilidade." },
+        "21": { "name": "Cabelo branco", "effects": "Sem efeito mecânico. Permanente." },
+        "22": { "name": "Ansioso", "effects": "−1 passo em todas as rolagens de Astúcia." },
+        "25": { "name": "Melancólico", "effects": "−1 passo em todas as rolagens de Empatia." },
+        "32": { "name": "Pesadelos", "effects": "Role Intuir a cada quarto de dia de sono; falha impede recuperação." },
+        "36": { "name": "Voz das Profundezas", "effects": "−1 passo em Observar enquanto estiver em terra firme." },
+        "42": { "name": "Fóbico", "effects": "Terror do que te quebrou; 1 dano mental por rodada perto." },
+        "44": { "name": "Alcoólatra", "effects": "Precisa de rum diariamente; sem ele, 1 dano mental por dia." },
+        "46": { "name": "Marca do Chamado", "effects": "Sinal visível das Profundezas no corpo. Chamado +1." },
+        "52": { "name": "Mitomaníaco", "effects": "Incapaz de parar de mentir." },
+        "53": { "name": "Paranoia", "effects": "Certeza de que alguém da tripulação quer sua morte." },
+        "55": { "name": "Delírio", "effects": "Convencido de algo completamente falso." },
+        "56": { "name": "Alucinações", "effects": "Role Intuir por quarto de dia; falha causa alucinação poderosa." },
+        "61": { "name": "Personalidade alterada", "effects": "Mudança fundamental de caráter. Permanente." },
+        "63": { "name": "Amnésia", "effects": "Perde memórias dos últimos D6 dias." },
+        "64": { "name": "Catatônico", "effects": "Não responde a estímulos." },
+        "66": { "name": "Parada cardíaca", "effects": "Morte imediata de puro pavor." }
+      }
+    },
+    "Notifications": {
+      "MacroOwnedItemsOnly": "Apenas itens pertencentes a um Ator podem virar macros na barra.",
+      "NoDiceToRoll": "Nenhum dado disponível para rolar.",
+      "NotEnoughWillpower": "Pontos de Vontade (PV) insuficientes.",
+      "WeaponUnloaded": "{name} está descarregada. Recarregue antes de disparar.",
+      "ArmorDegraded": "{name} sofreu Perdição e degradou para {die}!",
+      "NoRumLeft": "Não há doses de Rum restantes.",
+      "SupplyDepleted": "Suprimento de {name} esgotado!",
+      "NoCalling": "Seu Chamado é 0 — o mar ainda não o chama.",
+      "SelectTargetToken": "Selecione ao menos um token alvo no mapa para aplicar o dano.",
+      "AppliedDamage": "Dano ({dmg}) aplicado como Condição Física nos tokens selecionados."
+    },
+    "Effects": {
+      "Title": "Efeitos Ativos"
+    },
+    "Name": "Nome",
+    "Type": "Tipo",
+    "Item": "Item",
+    "Die": "Dado",
+    "Bonus": "Bônus",
+    "MaxBonus": "Bônus Máx.",
+    "Damage": "Dano",
+    "Modifier": "Modificador",
+    "AimedShot": "Tiro Mirado",
+    "Category": "Categoria",
+    "Rank": "Ranque",
+    "Level": "Nível",
+    "Quantity": "Qtd.",
+    "Features": "Características",
+    "Carried": "Carregado",
+    "Effect": "Efeito",
+    "Description": "Descrição",
+    "Biography": "Biografia",
+    "Notes": "Notas",
+    "Broken": "Quebrado",
+    "Destroyed": "Destruído",
+    "Permanent": "Permanente",
+    "QuarterDay": "Quarto de Dia",
+    "Available": "Disponível",
+    "Disabled": "Desativado",
+    "New": "Novo",
+    "NewEffect": "Novo Efeito",
+    "Add": "Adicionar",
+    "Clear": "Limpar",
+    "Repair": "Reparar",
+    "Roll": "Rolar",
+    "SendToChat": "Enviar ao Chat",
+    "EmptyList": "Nenhum item registrado.",
+    "Yes": "Sim",
+    "No": "Não"
+  }
+}
