@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+- Adicionado plano de fundo temático de convés submerso e tentáculos (`assets/img/sheet-bg.jpg`) na ficha.
+- Reforçado contraste geral da paleta (pergaminho envelhecido, cabeçalhos vermelho-sangue, bordas e anéis de latão) e corrigido sobrescrita de cores do tema escuro/claro do Foundry VTT v13/v14 em inputs, selects e botões.
+
 ## 1.0.0
 - Lançamento inicial do sistema **Mares de Sangue** (`fvtt-maresdesangue`) para **Foundry VTT v13 e v14**.
 - Motor 100% baseado em **Escala de Dados (*Step Dice*)**: `D (D6)`, `C (D8)`, `B (D10)`, `A (D12)`.
